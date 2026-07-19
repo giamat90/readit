@@ -13,6 +13,10 @@ Android app: give it a text resource — pasted text, web page URL, PDF, or a ph
 - **State**: Zustand (`store/user.ts`, `store/library.ts`, `store/player.ts`)
 - **Build**: EAS Build
 
+## Supabase
+- Project ref: `yhifdsfjbiitxxzulnhp` (Central EU) — URL + anon key live in gitignored `.env` (template: `.env.example`)
+- Migrations applied: 001 (profiles + RLS + auto-create trigger)
+
 ## Package / Bundle IDs
 - Android package: `com.giamat90.readit`
 - iOS bundle ID: `com.giamat90.readit` (iOS out of scope for v1.0)
