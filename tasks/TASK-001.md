@@ -9,7 +9,7 @@ Bootstrap the ReadIt Expo application: Expo SDK 55 + TypeScript + Expo Router + 
 As the developer, I want a correctly configured project skeleton so that all subsequent features are built on the agreed stack without rework.
 
 ## Acceptance criteria
-- [ ] `npx expo start` runs; app installs and launches on Giacomo's device via `npx expo run:android --device ZY22BHCRLG`
+- [ ] `npx expo start` runs; app installs and launches on Giacomo's Moto G 5G via `npx expo run:android` (serial ZY22BHCRLF — GreenThumb's docs say ...G, which is wrong for this device)
 - [ ] Two tabs render: **Library** (empty state: "Import something to start listening" + disabled FAB) and **Settings** (placeholder list)
 - [ ] NativeWind classes style all placeholder UI; dark mode follows system
 - [ ] TypeScript strict mode passes with `npx tsc --noEmit`

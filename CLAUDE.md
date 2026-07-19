@@ -164,7 +164,7 @@ Wait for Giacomo to confirm before considering the task complete.
 
 ```bash
 npx expo start                                   # dev server
-npx expo run:android --device ZY22BHCRLG         # run on Giacomo's device
+npx expo run:android                             # run on Giacomo's Moto G 5G (serial ZY22BHCRLF; auto-picked when it's the only device)
 eas build --profile preview --platform android   # preview APK
 eas build --profile production --platform android
 ```
