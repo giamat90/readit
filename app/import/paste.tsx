@@ -4,6 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import { Play } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { chunkText } from "@/lib/chunking";
+import { detectLanguage } from "@/lib/language";
 import { usePlayerStore } from "@/store/player";
 import { COLORS } from "@/constants";
 
@@ -22,7 +23,7 @@ export default function PasteScreen() {
     const first = chunks[0] ?? "";
     const docTitle =
       title.trim() || first.slice(0, 40) + (first.length > 40 ? "…" : "");
-    loadDocument(docTitle, chunks);
+    loadDocument(docTitle, chunks, { language: detectLanguage(text) });
     router.push("/player");
   }
 

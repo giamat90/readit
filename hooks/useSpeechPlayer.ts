@@ -14,14 +14,14 @@ export function useSpeechPlayer() {
 
   const speakChunk = useCallback((index: number) => {
     const id = ++utteranceId.current;
-    const { chunks, rate } = usePlayerStore.getState();
+    const { chunks, rate, language } = usePlayerStore.getState();
     const text = chunks[index];
     if (text === undefined) return;
 
     Speech.stop();
     Speech.speak(text, {
       rate,
-      language: getLocales()[0]?.languageTag,
+      language: language ?? getLocales()[0]?.languageTag,
       onDone: () => {
         if (utteranceId.current !== id) return; // stale utterance
         const s = usePlayerStore.getState();

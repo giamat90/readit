@@ -7,10 +7,15 @@ interface PlayerState {
   documentId: string | null; // null for unsaved (pasted) documents; TASK-004 fills it
   title: string;
   chunks: string[];
+  language: string | null; // BCP-47 tag; null → device locale decides the voice
   chunkIndex: number;
   isPlaying: boolean;
   rate: number;
-  loadDocument: (title: string, chunks: string[], documentId?: string) => void;
+  loadDocument: (
+    title: string,
+    chunks: string[],
+    opts?: { documentId?: string; language?: string | null }
+  ) => void;
   reset: () => void;
   setChunkIndex: (chunkIndex: number) => void;
   setIsPlaying: (isPlaying: boolean) => void;
@@ -21,13 +26,28 @@ export const usePlayerStore = create<PlayerState>((set) => ({
   documentId: null,
   title: "",
   chunks: [],
+  language: null,
   chunkIndex: 0,
   isPlaying: false,
   rate: CONFIG.RATE_DEFAULT,
-  loadDocument: (title, chunks, documentId) =>
-    set({ title, chunks, documentId: documentId ?? null, chunkIndex: 0, isPlaying: false }),
+  loadDocument: (title, chunks, opts) =>
+    set({
+      title,
+      chunks,
+      documentId: opts?.documentId ?? null,
+      language: opts?.language ?? null,
+      chunkIndex: 0,
+      isPlaying: false,
+    }),
   reset: () =>
-    set({ documentId: null, title: "", chunks: [], chunkIndex: 0, isPlaying: false }),
+    set({
+      documentId: null,
+      title: "",
+      chunks: [],
+      language: null,
+      chunkIndex: 0,
+      isPlaying: false,
+    }),
   setChunkIndex: (chunkIndex) => set({ chunkIndex }),
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setRate: (rate) =>

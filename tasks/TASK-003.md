@@ -71,6 +71,7 @@ None.
 TASK-001, TASK-002 (both TESTED).
 
 ## Notes
+- **Scope addition (PO request during testing)**: `lib/language.ts` — stopword-based en/it detection for pasted text, so an Italian text gets an Italian voice even on an English-locale phone. Null (ambiguous) falls back to device locale. Replaced by server-side detection in TASK-005+.
 - expo-speech pauses when the app is backgrounded on many Android devices — accepted v1.0 limitation, do not fight it (neural voices + expo-av solve it in v1.1).
 - `Speech.speak` has a per-utterance length cap on Android (~4000 chars) — our ~1000-char chunks stay well clear.
 - Rate: expo-speech `rate` maps roughly 1:1 on Android; clamp via existing `setRate`.
