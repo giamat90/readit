@@ -1,0 +1,1 @@
+claude --model sonnet --permission-mode plan --dangerously-skip-permissions

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+android/
+ios/
+*.jks
+*.keystore
+
+# Env & secrets — never commit
+.env
+.env.*
+google-services.json
+*service-account*.json
+
+# Misc
+npm-debug.*
+*.orig.*
+.DS_Store
