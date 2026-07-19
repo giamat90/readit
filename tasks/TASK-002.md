@@ -1,6 +1,6 @@
 # TASK-002: Supabase wiring + auth flow + profiles
 
-## Status: DRAFT
+## Status: APPROVED
 
 ## Overview
 Connect ReadIt to Supabase and build the authentication flow: email/password sign-up and sign-in, session persistence across app restarts, an auth routing guard, and the `profiles` table (migration 001) auto-populated on sign-up. Google Sign-In is included as a second phase behind manual Supabase console setup. After this task every later feature (documents, positions, Pro gating) has a real `user_id` to hang off.
