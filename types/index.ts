@@ -40,3 +40,8 @@ export interface PlaybackPosition {
   chunk_seq: number;
   updated_at: string;
 }
+
+// documents row with its embedded position (PostgREST embed shape)
+export interface DocumentWithPosition extends Document {
+  playback_positions: Pick<PlaybackPosition, "chunk_seq">[];
+}

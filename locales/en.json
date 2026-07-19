@@ -1,6 +1,7 @@
 {
   "common": {
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "tabs": {
     "library": "Library",
@@ -8,7 +9,10 @@
   },
   "library": {
     "title": "Library",
-    "empty": "Import something to start listening"
+    "empty": "Import something to start listening",
+    "progress": "{{current}} of {{total}}",
+    "deleteTitle": "Delete document",
+    "deleteConfirm": "Remove \"{{title}}\" from your library?"
   },
   "settings": {
     "title": "Settings",

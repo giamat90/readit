@@ -7,6 +7,7 @@ import { ChevronLeft, Pause, Play, SkipBack, SkipForward } from "lucide-react-na
 import { useTranslation } from "react-i18next";
 import { useSpeechPlayer } from "@/hooks/useSpeechPlayer";
 import { usePlayerStore } from "@/store/player";
+import { upsertPosition } from "@/lib/documents";
 import { COLORS } from "@/constants";
 
 const KEEP_AWAKE_TAG = "readit-player";
@@ -14,7 +15,8 @@ const KEEP_AWAKE_TAG = "readit-player";
 export default function PlayerScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { title, chunks, chunkIndex, isPlaying, rate } = usePlayerStore();
+  const { title, chunks, chunkIndex, isPlaying, rate, documentId } =
+    usePlayerStore();
   const { play, toggle, next, prev, cycleRate } = useSpeechPlayer();
 
   const scrollRef = useRef<ScrollView>(null);
@@ -33,6 +35,12 @@ export default function PlayerScreen() {
       deactivateKeepAwake(KEEP_AWAKE_TAG);
     };
   }, [isPlaying]);
+
+  // Persist position on every chunk advance (fire-and-forget; ~1 write per
+  // minute of listening). documentId is null for unsaved/offline documents.
+  useEffect(() => {
+    if (documentId) upsertPosition(documentId, chunkIndex);
+  }, [documentId, chunkIndex]);
 
   // Follow the spoken chunk (offsets measured via onLayout — no hardcoded pixels)
   useEffect(() => {

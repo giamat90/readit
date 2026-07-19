@@ -17,6 +17,7 @@ interface PlayerState {
     opts?: { documentId?: string; language?: string | null }
   ) => void;
   reset: () => void;
+  setDocumentId: (documentId: string | null) => void;
   setChunkIndex: (chunkIndex: number) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   setRate: (rate: number) => void;
@@ -48,6 +49,7 @@ export const usePlayerStore = create<PlayerState>((set) => ({
       chunkIndex: 0,
       isPlaying: false,
     }),
+  setDocumentId: (documentId) => set({ documentId }),
   setChunkIndex: (chunkIndex) => set({ chunkIndex }),
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setRate: (rate) =>

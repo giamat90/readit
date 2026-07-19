@@ -5,6 +5,7 @@ import { Play } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { chunkText } from "@/lib/chunking";
 import { detectLanguage } from "@/lib/language";
+import { saveDocument } from "@/lib/documents";
 import { usePlayerStore } from "@/store/player";
 import { COLORS } from "@/constants";
 
@@ -23,8 +24,16 @@ export default function PasteScreen() {
     const first = chunks[0] ?? "";
     const docTitle =
       title.trim() || first.slice(0, 40) + (first.length > 40 ? "…" : "");
-    loadDocument(docTitle, chunks, { language: detectLanguage(text) });
+    const language = detectLanguage(text);
+    loadDocument(docTitle, chunks, { language });
     router.push("/player");
+    // Persist in the background — playback must never wait for the network.
+    // Offline failure is silent by design: the text still plays.
+    saveDocument({ title: docTitle, chunks, sourceType: "paste", language }).then(
+      (id) => {
+        if (id) usePlayerStore.getState().setDocumentId(id);
+      }
+    );
   }
 
   return (

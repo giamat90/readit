@@ -1,6 +1,7 @@
 {
   "common": {
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "delete": "Elimina"
   },
   "tabs": {
     "library": "Libreria",
@@ -8,7 +9,10 @@
   },
   "library": {
     "title": "Libreria",
-    "empty": "Importa qualcosa per iniziare ad ascoltare"
+    "empty": "Importa qualcosa per iniziare ad ascoltare",
+    "progress": "{{current}} di {{total}}",
+    "deleteTitle": "Elimina documento",
+    "deleteConfirm": "Rimuovere \"{{title}}\" dalla libreria?"
   },
   "settings": {
     "title": "Impostazioni",
