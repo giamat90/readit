@@ -23,7 +23,7 @@ Project just bootstrapped — planning docs only, no code yet.
 ## Status checklist
 - [x] CLAUDE.md, CONTEXT.md, tasks/TEMPLATE.md written
 - [x] TASK-001 specced and APPROVED (project scaffold) ← ready for Developer instance
-- [ ] TASK-001 implemented (Expo scaffold)
+- [x] TASK-001 implemented (Expo scaffold) — branch `feat/task-001-scaffold`, awaiting device test by Giacomo
 - [ ] Supabase project created (Giacomo: create at supabase.com, note project ref)
 - [ ] Auth flow (TASK-002)
 - [ ] Core loop: paste → listen (TASK-003)

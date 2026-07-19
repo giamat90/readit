@@ -1,6 +1,6 @@
 # TASK-001: Project scaffold — Expo app shell
 
-## Status: APPROVED
+## Status: DONE
 
 ## Overview
 Bootstrap the ReadIt Expo application: Expo SDK 55 + TypeScript + Expo Router + NativeWind + Zustand + Lucide icons, with the tab shell, theme constants, and placeholder screens. No backend, no TTS yet — this task delivers a running app on device with navigation in place, so every later task lands in a working shell.
