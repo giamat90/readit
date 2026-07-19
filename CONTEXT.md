@@ -28,9 +28,9 @@ Scaffold TESTED on device (Moto G 5G, serial ZY22BHCRLF) and merged to `main`: t
 - [x] CLAUDE.md, CONTEXT.md, tasks/TEMPLATE.md written
 - [x] TASK-001 specced and APPROVED (project scaffold)
 - [x] TASK-001 implemented, device-TESTED, merged to `main`
-- [ ] TASK-002 specced and APPROVED — ready for Developer instance
-- [ ] Supabase project created (Giacomo: create at supabase.com, note project ref)
-- [ ] Auth flow (TASK-002)
+- [x] Supabase project created (ref `yhifdsfjbiitxxzulnhp`), migration 001 applied, confirm-email OFF
+- [x] TASK-002 implemented, device-TESTED, merged to `main` (auth flow works end-to-end)
+- [ ] TASK-003 specced (DRAFT) — awaiting Giacomo's approval
 - [ ] Core loop: paste → listen (TASK-003)
 - [ ] Library + resume (TASK-004)
 - [ ] Web / PDF / photo import (TASK-005..007)
