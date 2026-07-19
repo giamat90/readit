@@ -1,4 +1,7 @@
 {
+  "common": {
+    "cancel": "Annulla"
+  },
   "tabs": {
     "library": "Libreria",
     "settings": "Impostazioni"
@@ -13,6 +16,21 @@
     "rate": "Velocità di lettura",
     "language": "Lingua dell'app",
     "account": "Account",
+    "signedInAs": "Accesso come",
     "comingSoon": "In arrivo"
+  },
+  "auth": {
+    "signIn": "Accedi",
+    "signUp": "Crea account",
+    "email": "Email",
+    "password": "Password",
+    "submitSignIn": "Accedi",
+    "submitSignUp": "Crea account",
+    "toggleToSignUp": "Non hai un account? Creane uno",
+    "toggleToSignIn": "Hai già un account? Accedi",
+    "errorInvalidCredentials": "Email o password errate",
+    "errorGeneric": "Qualcosa è andato storto. Controlla la connessione e riprova.",
+    "signOut": "Esci",
+    "signOutConfirm": "Uscire da ReadIt?"
   }
 }

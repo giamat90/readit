@@ -1,4 +1,7 @@
 {
+  "common": {
+    "cancel": "Cancel"
+  },
   "tabs": {
     "library": "Library",
     "settings": "Settings"
@@ -13,6 +16,21 @@
     "rate": "Reading speed",
     "language": "App language",
     "account": "Account",
+    "signedInAs": "Signed in as",
     "comingSoon": "Coming soon"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "submitSignIn": "Sign in",
+    "submitSignUp": "Create account",
+    "toggleToSignUp": "No account? Create one",
+    "toggleToSignIn": "Already have an account? Sign in",
+    "errorInvalidCredentials": "Wrong email or password",
+    "errorGeneric": "Something went wrong. Check your connection and try again.",
+    "signOut": "Sign out",
+    "signOutConfirm": "Sign out of ReadIt?"
   }
 }

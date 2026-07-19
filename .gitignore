@@ -16,6 +16,7 @@ ios/
 # Env & secrets — never commit
 .env
 .env.*
+!.env.example
 google-services.json
 *service-account*.json
 
