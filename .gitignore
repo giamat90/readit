@@ -19,6 +19,9 @@ ios/
 google-services.json
 *service-account*.json
 
+# Claude Code local settings
+.claude/settings.local.json
+
 # Misc
 npm-debug.*
 *.orig.*

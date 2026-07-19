@@ -1,0 +1,18 @@
+{
+  "tabs": {
+    "library": "Library",
+    "settings": "Settings"
+  },
+  "library": {
+    "title": "Library",
+    "empty": "Import something to start listening"
+  },
+  "settings": {
+    "title": "Settings",
+    "voice": "Voice",
+    "rate": "Reading speed",
+    "language": "App language",
+    "account": "Account",
+    "comingSoon": "Coming soon"
+  }
+}
