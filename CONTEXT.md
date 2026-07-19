@@ -30,8 +30,8 @@ Scaffold TESTED on device (Moto G 5G, serial ZY22BHCRLF) and merged to `main`: t
 - [x] TASK-001 implemented, device-TESTED, merged to `main`
 - [x] Supabase project created (ref `yhifdsfjbiitxxzulnhp`), migration 001 applied, confirm-email OFF
 - [x] TASK-002 implemented, device-TESTED, merged to `main` (auth flow works end-to-end)
-- [ ] TASK-003 specced (DRAFT) — awaiting Giacomo's approval
-- [ ] Core loop: paste → listen (TASK-003)
+- [x] TASK-003 implemented, device-TESTED, merged to `main` (paste → chunk → listen, en/it voice detection)
+- [ ] TASK-004 specced (DRAFT) — awaiting Giacomo's approval
 - [ ] Library + resume (TASK-004)
 - [ ] Web / PDF / photo import (TASK-005..007)
 - [ ] Settings + i18n (TASK-008)
