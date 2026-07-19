@@ -18,12 +18,13 @@ Android app: give it a text resource — pasted text, web page URL, PDF, or a ph
 - iOS bundle ID: `com.giamat90.readit` (iOS out of scope for v1.0)
 
 ## Current state
-Project just bootstrapped — planning docs only, no code yet.
+Scaffold TESTED on device (Moto G 5G, serial ZY22BHCRLF) and merged to `main`: tab shell, i18n en/it, store skeletons. Next: TASK-002 (Supabase + auth).
 
 ## Status checklist
 - [x] CLAUDE.md, CONTEXT.md, tasks/TEMPLATE.md written
-- [x] TASK-001 specced and APPROVED (project scaffold) ← ready for Developer instance
-- [x] TASK-001 implemented (Expo scaffold) — branch `feat/task-001-scaffold`, awaiting device test by Giacomo
+- [x] TASK-001 specced and APPROVED (project scaffold)
+- [x] TASK-001 implemented, device-TESTED, merged to `main`
+- [ ] TASK-002 specced (DRAFT) — awaiting Giacomo's approval
 - [ ] Supabase project created (Giacomo: create at supabase.com, note project ref)
 - [ ] Auth flow (TASK-002)
 - [ ] Core loop: paste → listen (TASK-003)
