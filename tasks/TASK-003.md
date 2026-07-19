@@ -1,6 +1,6 @@
 # TASK-003: Core loop MVP — paste text → chunk → listen
 
-## Status: DRAFT
+## Status: APPROVED
 
 ## Overview
 The first version of ReadIt that talks. Activate the Library FAB, add a paste-text import screen, a chunking utility, and a TTS player screen driven by expo-speech: play/pause, skip ±paragraph, speed control, and current-chunk highlighting. No persistence yet — the pasted document lives in the player store; TASK-004 adds the database and library. This task proves the entire listening experience end-to-end.

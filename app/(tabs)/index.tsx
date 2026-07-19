@@ -1,11 +1,13 @@
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { BookOpen, Plus } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "@/constants";
 
 export default function LibraryScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <SafeAreaView className="flex-1 bg-paper dark:bg-ink">
@@ -22,12 +24,11 @@ export default function LibraryScreen() {
         </Text>
       </View>
 
-      {/* Import FAB — disabled until TASK-003 wires the paste-import path */}
       <Pressable
-        disabled
         accessibilityRole="button"
-        accessibilityLabel={t("library.empty")}
-        className="absolute bottom-8 right-6 h-14 w-14 items-center justify-center rounded-full bg-primary opacity-40"
+        accessibilityLabel={t("import.pasteTitle")}
+        onPress={() => router.push("/import/paste")}
+        className="absolute bottom-8 right-6 h-14 w-14 items-center justify-center rounded-full bg-primary"
       >
         <Plus color="#FFFFFF" size={28} />
       </Pressable>

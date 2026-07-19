@@ -1,14 +1,17 @@
 import { create } from "zustand";
 import { CONFIG } from "@/constants";
 
-// Skeleton store — expo-speech playback engine lands in TASK-003.
-// Chunk advancement must be driven by expo-speech onDone (CLAUDE.md rule 7).
+// Playback engine lives in hooks/useSpeechPlayer.ts; this store is pure state.
+// Chunk advancement is driven by expo-speech onDone (CLAUDE.md rule 7).
 interface PlayerState {
-  documentId: string | null;
+  documentId: string | null; // null for unsaved (pasted) documents; TASK-004 fills it
+  title: string;
+  chunks: string[];
   chunkIndex: number;
   isPlaying: boolean;
   rate: number;
-  setDocument: (documentId: string | null) => void;
+  loadDocument: (title: string, chunks: string[], documentId?: string) => void;
+  reset: () => void;
   setChunkIndex: (chunkIndex: number) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   setRate: (rate: number) => void;
@@ -16,11 +19,15 @@ interface PlayerState {
 
 export const usePlayerStore = create<PlayerState>((set) => ({
   documentId: null,
+  title: "",
+  chunks: [],
   chunkIndex: 0,
   isPlaying: false,
   rate: CONFIG.RATE_DEFAULT,
-  setDocument: (documentId) =>
-    set({ documentId, chunkIndex: 0, isPlaying: false }),
+  loadDocument: (title, chunks, documentId) =>
+    set({ title, chunks, documentId: documentId ?? null, chunkIndex: 0, isPlaying: false }),
+  reset: () =>
+    set({ documentId: null, title: "", chunks: [], chunkIndex: 0, isPlaying: false }),
   setChunkIndex: (chunkIndex) => set({ chunkIndex }),
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setRate: (rate) =>

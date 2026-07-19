@@ -85,6 +85,8 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="import" options={{ headerShown: false }} />
+        <Stack.Screen name="player" options={{ headerShown: false }} />
       </Stack>
     </>
   );

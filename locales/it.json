@@ -19,6 +19,16 @@
     "signedInAs": "Accesso come",
     "comingSoon": "In arrivo"
   },
+  "import": {
+    "pasteTitle": "Incolla testo",
+    "titlePlaceholder": "Titolo (facoltativo)",
+    "textPlaceholder": "Incolla o scrivi il testo che vuoi ascoltare…",
+    "listen": "Ascolta"
+  },
+  "player": {
+    "speed": "Velocità",
+    "done": "Fine"
+  },
   "auth": {
     "signIn": "Accedi",
     "signUp": "Crea account",

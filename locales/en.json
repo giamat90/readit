@@ -19,6 +19,16 @@
     "signedInAs": "Signed in as",
     "comingSoon": "Coming soon"
   },
+  "import": {
+    "pasteTitle": "Paste text",
+    "titlePlaceholder": "Title (optional)",
+    "textPlaceholder": "Paste or type the text you want to listen to…",
+    "listen": "Listen"
+  },
+  "player": {
+    "speed": "Speed",
+    "done": "End"
+  },
   "auth": {
     "signIn": "Sign in",
     "signUp": "Create account",
