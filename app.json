@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "scheme": "readit",
     "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/app-icon.png",
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.giamat90.readit"
@@ -13,7 +14,11 @@
     "android": {
       "package": "com.giamat90.readit",
       "versionCode": 1,
-      "softwareKeyboardLayoutMode": "resize"
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#283A5F"
+      }
     },
     "web": {
       "bundler": "metro",
