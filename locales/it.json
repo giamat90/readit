@@ -34,7 +34,14 @@
     "pasteFromClipboard": "Incolla dagli appunti",
     "errorInvalidUrl": "Non sembra un link valido",
     "errorFetchFailed": "Impossibile recuperare la pagina. Controlla la connessione o prova un altro link.",
-    "errorNoContent": "Nessun articolo leggibile trovato in quella pagina"
+    "errorNoContent": "Nessun articolo leggibile trovato in quella pagina",
+    "fromPdf": "Importa PDF",
+    "selectPdf": "Seleziona un PDF",
+    "uploading": "Caricamento…",
+    "extracting": "Estrazione del testo…",
+    "errorPasswordProtected": "Questo PDF è protetto da password",
+    "errorNoTextFound": "Nessun testo leggibile trovato in questo PDF",
+    "errorCorruptFile": "Impossibile leggere questo file"
   },
   "player": {
     "speed": "Velocità",

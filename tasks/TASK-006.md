@@ -1,6 +1,6 @@
 # TASK-006: PDF import — storage upload + extract-pdf edge function
 
-## Status: DRAFT
+## Status: APPROVED
 
 ## Overview
 Third import path: pick a PDF from the device, upload it to Supabase Storage, extract its text server-side, chunk it, save as a `documents` row (`source_type='pdf'`), then delete the uploaded file (we only need the text, not the original). Reuses the same fetch/extract → normalize → chunk → insert → reply pattern `extract-web` established in TASK-005 — this task adapts it to a storage-triggered input instead of a URL fetch.

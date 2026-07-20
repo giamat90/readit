@@ -23,6 +23,9 @@ google-services.json
 # Claude Code local settings
 .claude/settings.local.json
 
+# Supabase CLI local state
+supabase/.temp/
+
 # Misc
 npm-debug.*
 *.orig.*

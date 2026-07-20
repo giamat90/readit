@@ -34,7 +34,14 @@
     "pasteFromClipboard": "Paste from clipboard",
     "errorInvalidUrl": "That doesn't look like a valid link",
     "errorFetchFailed": "Couldn't fetch that page. Check your connection or try another link.",
-    "errorNoContent": "No readable article found on that page"
+    "errorNoContent": "No readable article found on that page",
+    "fromPdf": "Import PDF",
+    "selectPdf": "Select a PDF",
+    "uploading": "Uploading…",
+    "extracting": "Extracting text…",
+    "errorPasswordProtected": "This PDF is password protected",
+    "errorNoTextFound": "No readable text found in this PDF",
+    "errorCorruptFile": "This file couldn't be read"
   },
   "player": {
     "speed": "Speed",

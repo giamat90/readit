@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { Link2, Play } from "lucide-react-native";
+import { FileUp, Link2, Play } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { chunkText } from "@/lib/chunking";
 import { detectLanguage } from "@/lib/language";
@@ -78,6 +78,15 @@ export default function PasteScreen() {
       >
         <Link2 color={COLORS.secondary} size={18} />
         <Text className="ml-2 text-sm text-secondary">{t("import.fromWeb")}</Text>
+      </Pressable>
+
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => router.push("/import/pdf")}
+        className="mb-4 flex-row items-center justify-center py-2"
+      >
+        <FileUp color={COLORS.secondary} size={18} />
+        <Text className="ml-2 text-sm text-secondary">{t("import.fromPdf")}</Text>
       </Pressable>
     </View>
   );

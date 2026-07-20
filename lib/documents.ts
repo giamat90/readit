@@ -95,6 +95,72 @@ export async function upsertPosition(
   if (error) console.warn("upsertPosition failed", error.code);
 }
 
+export async function uploadPdf(
+  uri: string,
+  filename: string
+): Promise<string | null> {
+  const userId = await currentUserId();
+  if (!userId) return null;
+
+  try {
+    const response = await fetch(uri);
+    const arrayBuffer = await response.arrayBuffer();
+    const path = `${userId}/${Date.now()}-${filename}`;
+    const { error } = await supabase.storage
+      .from("pdf-uploads")
+      .upload(path, arrayBuffer, { contentType: "application/pdf" });
+    if (error) {
+      console.warn("uploadPdf failed", error.message);
+      return null;
+    }
+    return path;
+  } catch (err) {
+    console.warn("uploadPdf: read/upload error", (err as Error)?.name);
+    return null;
+  }
+}
+
+type ExtractPdfErrorCode =
+  | "invalid_request"
+  | "unauthorized"
+  | "download_failed"
+  | "password_protected"
+  | "no_text_found"
+  | "corrupt_file";
+
+export type ExtractPdfResult =
+  | { documentId: string }
+  | { error: ExtractPdfErrorCode | "network_error" };
+
+export async function callExtractPdf(
+  storagePath: string,
+  filename: string
+): Promise<ExtractPdfResult> {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  const anonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+  const baseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+  if (!token || !anonKey || !baseUrl) return { error: "unauthorized" };
+
+  try {
+    const res = await fetch(`${baseUrl}/functions/v1/extract-pdf`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        apikey: anonKey,
+      },
+      body: JSON.stringify({ storagePath, filename }),
+    });
+    const json = await res.json();
+    if (!res.ok) return { error: json.error ?? "corrupt_file" };
+    return { documentId: json.documentId as string };
+  } catch (err) {
+    console.warn("callExtractPdf: network error", (err as Error)?.name);
+    return { error: "network_error" };
+  }
+}
+
 type ExtractWebErrorCode =
   | "invalid_url"
   | "fetch_failed"
