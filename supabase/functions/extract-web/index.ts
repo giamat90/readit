@@ -8,7 +8,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Readability } from "https://esm.sh/@mozilla/readability@0.5.0";
-import { parseHTML } from "https://esm.sh/linkedom@0.16.11";
+import { parseHTML } from "https://esm.sh/linkedom@0.16.11/worker";
 import { chunkText } from "./chunking.ts";
 
 const FETCH_TIMEOUT_MS = 10_000;
