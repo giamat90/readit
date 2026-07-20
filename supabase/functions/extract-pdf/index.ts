@@ -6,6 +6,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { extractText, getDocumentProxy } from "https://esm.sh/unpdf@0.11.0";
 import { chunkText } from "./chunking.ts";
+import { detectLanguage } from "./language.ts";
 
 type ErrorCode =
   | "invalid_request"
@@ -90,6 +91,7 @@ Deno.serve(async (req) => {
       title: filename.replace(/\.pdf$/i, "").slice(0, 200),
       source_type: "pdf",
       source_ref: filename,
+      language: detectLanguage(text),
       char_count: charCount,
       chunk_count: chunks.length,
       status: "ready",
