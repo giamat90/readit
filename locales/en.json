@@ -41,7 +41,14 @@
     "extracting": "Extracting text…",
     "errorPasswordProtected": "This PDF is password protected",
     "errorNoTextFound": "No readable text found in this PDF",
-    "errorCorruptFile": "This file couldn't be read"
+    "errorCorruptFile": "This file couldn't be read",
+    "fromPhoto": "Take a photo",
+    "takePhoto": "Take photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading photo…",
+    "errorNoTextDetected": "No text found in that photo",
+    "errorImageUnreadable": "Couldn't read that image. Try again with better lighting.",
+    "cameraPermissionDenied": "Camera access is needed to take a photo"
   },
   "player": {
     "speed": "Speed",

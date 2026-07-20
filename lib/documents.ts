@@ -127,6 +127,73 @@ export async function uploadPdf(
   }
 }
 
+export async function uploadPhoto(
+  uri: string,
+  filename: string
+): Promise<string | null> {
+  const userId = await currentUserId();
+  if (!userId) return null;
+
+  try {
+    const base64 = await FileSystem.readAsStringAsync(uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    const arrayBuffer = decode(base64);
+    const path = `${userId}/${Date.now()}-${filename}`;
+    const { error } = await supabase.storage
+      .from("photo-uploads")
+      .upload(path, arrayBuffer, { contentType: "image/jpeg" });
+    if (error) {
+      console.warn("uploadPhoto failed", error.message);
+      return null;
+    }
+    return path;
+  } catch (err) {
+    console.warn("uploadPhoto: read/upload error", (err as Error)?.name);
+    return null;
+  }
+}
+
+type ExtractPhotoErrorCode =
+  | "invalid_request"
+  | "unauthorized"
+  | "download_failed"
+  | "no_text_detected"
+  | "image_unreadable";
+
+export type ExtractPhotoResult =
+  | { documentId: string }
+  | { error: ExtractPhotoErrorCode | "network_error" };
+
+export async function callExtractPhoto(
+  storagePath: string,
+  filename: string
+): Promise<ExtractPhotoResult> {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  const anonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+  const baseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+  if (!token || !anonKey || !baseUrl) return { error: "unauthorized" };
+
+  try {
+    const res = await fetch(`${baseUrl}/functions/v1/extract-photo`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        apikey: anonKey,
+      },
+      body: JSON.stringify({ storagePath, filename }),
+    });
+    const json = await res.json();
+    if (!res.ok) return { error: json.error ?? "image_unreadable" };
+    return { documentId: json.documentId as string };
+  } catch (err) {
+    console.warn("callExtractPhoto: network error", (err as Error)?.name);
+    return { error: "network_error" };
+  }
+}
+
 type ExtractPdfErrorCode =
   | "invalid_request"
   | "unauthorized"

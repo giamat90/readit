@@ -41,7 +41,14 @@
     "extracting": "Estrazione del testo…",
     "errorPasswordProtected": "Questo PDF è protetto da password",
     "errorNoTextFound": "Nessun testo leggibile trovato in questo PDF",
-    "errorCorruptFile": "Impossibile leggere questo file"
+    "errorCorruptFile": "Impossibile leggere questo file",
+    "fromPhoto": "Scatta una foto",
+    "takePhoto": "Scatta foto",
+    "chooseFromGallery": "Scegli dalla galleria",
+    "readingPhoto": "Lettura della foto…",
+    "errorNoTextDetected": "Nessun testo trovato in quella foto",
+    "errorImageUnreadable": "Impossibile leggere quell'immagine. Riprova con più luce.",
+    "cameraPermissionDenied": "È necessario l'accesso alla fotocamera per scattare una foto"
   },
   "player": {
     "speed": "Velocità",

@@ -20,7 +20,14 @@
       "output": "static"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "ReadIt needs photo access to import text from images in your gallery.",
+          "cameraPermission": "ReadIt needs camera access to photograph pages and read them aloud."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
