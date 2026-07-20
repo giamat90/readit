@@ -1,3 +1,5 @@
+import * as FileSystem from "expo-file-system/legacy";
+import { decode } from "base64-arraybuffer";
 import { supabase } from "@/lib/supabase";
 import type { DocumentWithPosition, SourceType } from "@/types";
 
@@ -103,8 +105,13 @@ export async function uploadPdf(
   if (!userId) return null;
 
   try {
-    const response = await fetch(uri);
-    const arrayBuffer = await response.arrayBuffer();
+    // Document picker can return content:// URIs on Android, which RN's
+    // fetch() can't read reliably — go through expo-file-system + base64
+    // instead (documented pattern for Expo + Supabase Storage uploads).
+    const base64 = await FileSystem.readAsStringAsync(uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    const arrayBuffer = decode(base64);
     const path = `${userId}/${Date.now()}-${filename}`;
     const { error } = await supabase.storage
       .from("pdf-uploads")
