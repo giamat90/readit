@@ -15,7 +15,7 @@ Android app: give it a text resource — pasted text, web page URL, PDF, or a ph
 
 ## Supabase
 - Project ref: `yhifdsfjbiitxxzulnhp` (Central EU) — URL + anon key live in gitignored `.env` (template: `.env.example`)
-- Migrations applied: 001 (profiles + RLS + auto-create trigger)
+- Migrations applied: 001 (profiles + RLS + auto-create trigger), 002 (documents/document_chunks/playback_positions + RLS)
 
 ## Package / Bundle IDs
 - Android package: `com.giamat90.readit`
