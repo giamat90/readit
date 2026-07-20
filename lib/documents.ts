@@ -95,6 +95,44 @@ export async function upsertPosition(
   if (error) console.warn("upsertPosition failed", error.code);
 }
 
+type ExtractWebErrorCode =
+  | "invalid_url"
+  | "fetch_failed"
+  | "no_content"
+  | "unauthorized";
+
+export type ExtractWebResult =
+  | { documentId: string }
+  | { error: ExtractWebErrorCode | "network_error" };
+
+// Direct fetch() with Bearer token + apikey — never supabase.functions.invoke()
+// (CLAUDE.md rule 2: invoke() causes JWT 401s).
+export async function callExtractWeb(url: string): Promise<ExtractWebResult> {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  const anonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+  const baseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+  if (!token || !anonKey || !baseUrl) return { error: "unauthorized" };
+
+  try {
+    const res = await fetch(`${baseUrl}/functions/v1/extract-web`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        apikey: anonKey,
+      },
+      body: JSON.stringify({ url }),
+    });
+    const json = await res.json();
+    if (!res.ok) return { error: json.error ?? "fetch_failed" };
+    return { documentId: json.documentId as string };
+  } catch (err) {
+    console.warn("callExtractWeb: network error", (err as Error)?.name);
+    return { error: "network_error" };
+  }
+}
+
 export async function deleteDocument(documentId: string): Promise<boolean> {
   const { error } = await supabase
     .from("documents")

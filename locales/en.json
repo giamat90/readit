@@ -27,7 +27,14 @@
     "pasteTitle": "Paste text",
     "titlePlaceholder": "Title (optional)",
     "textPlaceholder": "Paste or type the text you want to listen to…",
-    "listen": "Listen"
+    "listen": "Listen",
+    "fromWeb": "Import from a link",
+    "urlPlaceholder": "Paste a link (https://…)",
+    "extract": "Extract & listen",
+    "pasteFromClipboard": "Paste from clipboard",
+    "errorInvalidUrl": "That doesn't look like a valid link",
+    "errorFetchFailed": "Couldn't fetch that page. Check your connection or try another link.",
+    "errorNoContent": "No readable article found on that page"
   },
   "player": {
     "speed": "Speed",

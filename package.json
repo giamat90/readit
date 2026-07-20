@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.110.7",
     "babel-preset-expo": "~55.0.8",
     "expo": "~55.0.4",
+    "expo-clipboard": "~55.0.15",
     "expo-constants": "~55.0.7",
     "expo-keep-awake": "~55.0.8",
     "expo-linking": "~55.0.7",

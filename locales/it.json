@@ -27,7 +27,14 @@
     "pasteTitle": "Incolla testo",
     "titlePlaceholder": "Titolo (facoltativo)",
     "textPlaceholder": "Incolla o scrivi il testo che vuoi ascoltare…",
-    "listen": "Ascolta"
+    "listen": "Ascolta",
+    "fromWeb": "Importa da un link",
+    "urlPlaceholder": "Incolla un link (https://…)",
+    "extract": "Estrai e ascolta",
+    "pasteFromClipboard": "Incolla dagli appunti",
+    "errorInvalidUrl": "Non sembra un link valido",
+    "errorFetchFailed": "Impossibile recuperare la pagina. Controlla la connessione o prova un altro link.",
+    "errorNoContent": "Nessun articolo leggibile trovato in quella pagina"
   },
   "player": {
     "speed": "Velocità",

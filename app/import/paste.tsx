@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { Play } from "lucide-react-native";
+import { Link2, Play } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { chunkText } from "@/lib/chunking";
 import { detectLanguage } from "@/lib/language";
@@ -69,6 +69,15 @@ export default function PasteScreen() {
         <Text className="ml-2 text-base font-semibold text-white">
           {t("import.listen")}
         </Text>
+      </Pressable>
+
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => router.push("/import/web")}
+        className="mb-4 flex-row items-center justify-center py-2"
+      >
+        <Link2 color={COLORS.secondary} size={18} />
+        <Text className="ml-2 text-sm text-secondary">{t("import.fromWeb")}</Text>
       </Pressable>
     </View>
   );
