@@ -1,6 +1,6 @@
 # TASK-004: Documents in the database — library list + resume
 
-## Status: APPROVED
+## Status: TESTED
 
 ## Overview
 Persist documents to Supabase and make the Library real. Migration 002 creates `documents`, `document_chunks`, and `playback_positions` (per CLAUDE.md schema, with RLS). Pasting a text saves it (fire-and-forget, so offline listening still works), the Library lists saved documents with progress, tapping one resumes from the last-heard paragraph, and long-press deletes. After this task the app survives restarts: import once, listen over days.
