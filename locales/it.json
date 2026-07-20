@@ -21,7 +21,13 @@
     "language": "Lingua dell'app",
     "account": "Account",
     "signedInAs": "Accesso come",
-    "comingSoon": "In arrivo"
+    "comingSoon": "In arrivo",
+    "voiceDefault": "Predefinita del dispositivo",
+    "selectVoice": "Voce",
+    "selectRate": "Velocità di lettura",
+    "selectLanguage": "Lingua dell'app",
+    "english": "English",
+    "italian": "Italiano"
   },
   "import": {
     "pasteTitle": "Incolla testo",

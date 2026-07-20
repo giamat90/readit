@@ -2,9 +2,23 @@ import { useCallback, useEffect, useRef } from "react";
 import * as Speech from "expo-speech";
 import { getLocales } from "expo-localization";
 import { usePlayerStore } from "@/store/player";
+import { useUserStore } from "@/store/user";
 import { CONFIG } from "@/constants";
 
 export const RATE_STEPS = [0.75, 1, 1.25, 1.5, 2] as const;
+
+// Cached for the app session — avoids re-querying the OS voice list on
+// every chunk. Used only to confirm the preferred voice actually matches
+// the document's spoken language before applying it.
+let voicesCache: Speech.Voice[] | null = null;
+async function voiceMatchesLanguage(
+  identifier: string,
+  languagePrefix: string
+): Promise<boolean> {
+  if (!voicesCache) voicesCache = await Speech.getAvailableVoicesAsync();
+  const voice = voicesCache.find((v) => v.identifier === identifier);
+  return !!voice && voice.language.toLowerCase().startsWith(languagePrefix.toLowerCase());
+}
 
 // Wraps expo-speech around the player store. Chunk advancement happens ONLY
 // in the onDone callback (CLAUDE.md rule 7). Every utterance gets an id so a
@@ -12,16 +26,26 @@ export const RATE_STEPS = [0.75, 1, 1.25, 1.5, 2] as const;
 export function useSpeechPlayer() {
   const utteranceId = useRef(0);
 
-  const speakChunk = useCallback((index: number) => {
+  const speakChunk = useCallback(async (index: number) => {
     const id = ++utteranceId.current;
     const { chunks, rate, language } = usePlayerStore.getState();
     const text = chunks[index];
     if (text === undefined) return;
 
+    const resolvedLanguage = language ?? getLocales()[0]?.languageTag ?? "en-US";
+    const preferredVoice = useUserStore.getState().preferredVoice;
+    const voice =
+      preferredVoice && (await voiceMatchesLanguage(preferredVoice, resolvedLanguage))
+        ? preferredVoice
+        : undefined;
+
+    if (utteranceId.current !== id) return; // superseded while awaiting voice check
+
     Speech.stop();
     Speech.speak(text, {
       rate,
-      language: language ?? getLocales()[0]?.languageTag,
+      language: resolvedLanguage,
+      voice,
       onDone: () => {
         if (utteranceId.current !== id) return; // stale utterance
         const s = usePlayerStore.getState();

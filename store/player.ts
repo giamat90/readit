@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { CONFIG } from "@/constants";
+import { useUserStore } from "@/store/user";
 
 // Playback engine lives in hooks/useSpeechPlayer.ts; this store is pure state.
 // Chunk advancement is driven by expo-speech onDone (CLAUDE.md rule 7).
@@ -39,6 +40,9 @@ export const usePlayerStore = create<PlayerState>((set) => ({
       language: opts?.language ?? null,
       chunkIndex: 0,
       isPlaying: false,
+      // Fresh document starts at the user's preferred default speed;
+      // mid-playback rate changes stay session-only unless saved in Settings.
+      rate: useUserStore.getState().preferredRate,
     }),
   reset: () =>
     set({

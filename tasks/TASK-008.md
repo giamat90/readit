@@ -1,6 +1,6 @@
 # TASK-008: Settings — voice picker, default speed, app language
 
-## Status: DRAFT
+## Status: APPROVED
 
 ## Overview
 Replace the three "Coming soon" placeholder rows in Settings with working preferences: a TTS voice picker (per language, sourced from the device's installed voices), a default playback speed, and an app display-language switch (en/it). Preferences persist to the `profiles` row (already in the schema since migration 001: `preferred_voice`, `preferred_rate`, `app_language`) and apply as defaults the next time a document is opened. This task makes ReadIt's copy and voice actually configurable instead of hardcoded to device locale.

@@ -21,7 +21,13 @@
     "language": "App language",
     "account": "Account",
     "signedInAs": "Signed in as",
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "voiceDefault": "Device default",
+    "selectVoice": "Voice",
+    "selectRate": "Reading speed",
+    "selectLanguage": "App language",
+    "english": "English",
+    "italian": "Italiano"
   },
   "import": {
     "pasteTitle": "Paste text",

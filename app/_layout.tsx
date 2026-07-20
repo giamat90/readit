@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import i18n from "@/lib/i18n";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store/user";
 import { COLORS } from "@/constants";
@@ -31,6 +32,14 @@ async function fetchProfile(userId: string): Promise<Profile> {
   };
 }
 
+// app_language is UI chrome (English/Italiano labels) — independent from a
+// document's spoken language, which is resolved per-document elsewhere.
+function syncAppLanguage(profile: Profile) {
+  if (profile.app_language && profile.app_language !== i18n.language) {
+    i18n.changeLanguage(profile.app_language);
+  }
+}
+
 export default function RootLayout() {
   const [authReady, setAuthReady] = useState(false);
   const { session, setSession, setProfile } = useUserStore();
@@ -41,7 +50,10 @@ export default function RootLayout() {
     supabase.auth.getSession().then(({ data: { session: current } }) => {
       setSession(current);
       if (current) {
-        fetchProfile(current.user.id).then(setProfile);
+        fetchProfile(current.user.id).then((p) => {
+          setProfile(p);
+          syncAppLanguage(p);
+        });
       }
       setAuthReady(true);
     });
@@ -51,7 +63,10 @@ export default function RootLayout() {
     } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
       if (newSession) {
-        fetchProfile(newSession.user.id).then(setProfile);
+        fetchProfile(newSession.user.id).then((p) => {
+          setProfile(p);
+          syncAppLanguage(p);
+        });
       } else {
         setProfile(null);
       }
@@ -86,6 +101,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="import" options={{ headerShown: false }} />
+        <Stack.Screen name="settings" options={{ headerShown: false }} />
         <Stack.Screen name="player" options={{ headerShown: false }} />
       </Stack>
     </>
