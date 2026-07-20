@@ -10,6 +10,13 @@ for /f "usebackq tokens=1,2" %%a in (`powershell -NoProfile -ExecutionPolicy Byp
     set VERSION_CODE=%%b
 )
 
+echo Regenerating native Android project (picks up app.json changes: icon, permissions, plugins)...
+call npx expo prebuild --platform android --clean
+if errorlevel 1 (
+    echo Prebuild failed!
+    exit /b 1
+)
+
 echo Building bundle v%VERSION_NAME% (%VERSION_CODE%)...
 
 :: Pass versions as Gradle properties

@@ -172,13 +172,15 @@ eas build --profile production --platform android
 ### Local build scripts (mirrors GreenThumb)
 
 ```
-deploy_local_debug_android.bat      # npx expo run:android — debug build to connected device
-deploy_local_release_android.bat    # npx expo run:android --variant release — release build to connected device
-build_bundle_android_release.bat    # gradlew bundleRelease -> Bundles/app-release-vX.Y.Z-N.aab (Play Store artifact)
+deploy_local_debug_android.bat      # npx expo run:android — debug build to connected device (fast, no prebuild)
+deploy_local_release_android.bat    # prebuild --clean -> gradlew assembleRelease -> uninstall + fresh install
+build_bundle_android_release.bat    # prebuild --clean -> gradlew bundleRelease -> Bundles/app-release-vX.Y.Z-N.aab (Play Store artifact)
 build_get_version.ps1               # helper: reads version/versionCode from app.json — used by build_bundle_android_release.bat
 ```
 
-`build_bundle_android_release.bat` requires a generated `android/` project (`npx expo run:android` / `npx expo prebuild` at least once) and reads version info straight from `app.json`, so bump `version`/`android.versionCode` there before cutting a release bundle.
+Only the debug script skips `expo prebuild`. The native `android/` project is generated once and does **not** re-read `app.json` on later runs — icon, permissions, and plugin config changes are silently ignored until prebuild reruns. Both release scripts run `npx expo prebuild --platform android --clean` first so they always reflect current `app.json`. `deploy_local_release_android.bat` also does a full `adb uninstall` + fresh `adb install` — Android's launcher caches icons aggressively and often ignores an overlay reinstall (`adb install -r`) even when the new icon is genuinely in the APK.
+
+`build_bundle_android_release.bat` reads version info straight from `app.json`, so bump `version`/`android.versionCode` there before cutting a release bundle.
 
 ## v1.0 scope
 
