@@ -165,9 +165,20 @@ Wait for Giacomo to confirm before considering the task complete.
 ```bash
 npx expo start                                   # dev server
 npx expo run:android                             # run on Giacomo's Moto G 5G (serial ZY22BHCRLF; auto-picked when it's the only device)
-eas build --profile preview --platform android   # preview APK
+eas build --profile preview --platform android   # preview APK (cloud, once eas.json exists)
 eas build --profile production --platform android
 ```
+
+### Local build scripts (mirrors GreenThumb)
+
+```
+deploy_local_debug_android.bat      # npx expo run:android — debug build to connected device
+deploy_local_release_android.bat    # npx expo run:android --variant release — release build to connected device
+build_bundle_android_release.bat    # gradlew bundleRelease -> Bundles/app-release-vX.Y.Z-N.aab (Play Store artifact)
+build_get_version.ps1               # helper: reads version/versionCode from app.json — used by build_bundle_android_release.bat
+```
+
+`build_bundle_android_release.bat` requires a generated `android/` project (`npx expo run:android` / `npx expo prebuild` at least once) and reads version info straight from `app.json`, so bump `version`/`android.versionCode` there before cutting a release bundle.
 
 ## v1.0 scope
 

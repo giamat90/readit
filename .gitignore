@@ -13,6 +13,9 @@ ios/
 *.jks
 *.keystore
 
+# Local release build output
+Bundles/
+
 # Env & secrets — never commit
 .env
 .env.*
