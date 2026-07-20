@@ -4,7 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import * as DocumentPicker from "expo-document-picker";
 import { FileText, Upload } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { callExtractPdf, getChunks, uploadPdf } from "@/lib/documents";
+import { callExtractPdf, getChunks, getDocumentMeta, uploadPdf } from "@/lib/documents";
 import { usePlayerStore } from "@/store/player";
 import { COLORS } from "@/constants";
 
@@ -56,14 +56,18 @@ export default function PdfImportScreen() {
       return;
     }
 
-    const chunks = await getChunks(extraction.documentId);
+    const [chunks, meta] = await Promise.all([
+      getChunks(extraction.documentId),
+      getDocumentMeta(extraction.documentId),
+    ]);
     setPhase("idle");
     if (chunks.length === 0) {
       setErrorKey("import.errorNoTextFound");
       return;
     }
-    loadDocument(file.name.replace(/\.pdf$/i, ""), chunks, {
+    loadDocument(meta?.title ?? file.name.replace(/\.pdf$/i, ""), chunks, {
       documentId: extraction.documentId,
+      language: meta?.language ?? null,
     });
     router.push("/player");
   }

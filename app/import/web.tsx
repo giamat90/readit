@@ -4,7 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import { ClipboardPaste, Play } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { callExtractWeb, getChunks } from "@/lib/documents";
+import { callExtractWeb, getChunks, getDocumentMeta } from "@/lib/documents";
 import { usePlayerStore } from "@/store/player";
 import { COLORS } from "@/constants";
 
@@ -49,13 +49,19 @@ export default function WebImportScreen() {
       setLoading(false);
       return;
     }
-    const chunks = await getChunks(result.documentId);
+    const [chunks, meta] = await Promise.all([
+      getChunks(result.documentId),
+      getDocumentMeta(result.documentId),
+    ]);
     setLoading(false);
     if (chunks.length === 0) {
       setErrorKey("import.errorNoContent");
       return;
     }
-    loadDocument(url.trim(), chunks, { documentId: result.documentId });
+    loadDocument(meta?.title ?? url.trim(), chunks, {
+      documentId: result.documentId,
+      language: meta?.language ?? null,
+    });
     router.push("/player");
   }
 

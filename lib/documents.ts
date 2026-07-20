@@ -69,6 +69,25 @@ export async function listDocuments(): Promise<DocumentWithPosition[] | null> {
   return (data ?? []) as DocumentWithPosition[];
 }
 
+// Fetches the server-computed title + detected language for a just-extracted
+// document (web/pdf/photo) — extraction determines both server-side, so the
+// importer screens must read them back rather than guessing (e.g. from a
+// raw URL or filename), or playback silently loses the detected language.
+export async function getDocumentMeta(
+  documentId: string
+): Promise<{ title: string; language: string | null } | null> {
+  const { data, error } = await supabase
+    .from("documents")
+    .select("title, language")
+    .eq("id", documentId)
+    .single();
+  if (error || !data) {
+    console.warn("getDocumentMeta failed", error?.code);
+    return null;
+  }
+  return data;
+}
+
 export async function getChunks(documentId: string): Promise<string[]> {
   const { data, error } = await supabase
     .from("document_chunks")
