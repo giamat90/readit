@@ -1,6 +1,6 @@
 # TASK-005: Web import — extract-web edge function + URL screen
 
-## Status: APPROVED
+## Status: IN_PROGRESS — code complete on `feat/task-005-web-import`; blocked on ⚡ manual edge function deploy
 
 ## Overview
 Second import path: paste a URL, the server fetches the page, extracts the article text with Mozilla Readability, chunks it, saves it as a `documents` row (`source_type='web'`), and the client opens the player once it's ready. This is the first task with a real Supabase Edge Function and the first server-side extraction pipeline — the pattern (fetch → normalize → chunk → insert → return id) is reused unchanged by TASK-006 (PDF) and TASK-007 (photo).
