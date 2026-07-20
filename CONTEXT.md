@@ -16,6 +16,8 @@ Android app: give it a text resource — pasted text, web page URL, PDF, or a ph
 ## Supabase
 - Project ref: `yhifdsfjbiitxxzulnhp` (Central EU) — URL + anon key live in gitignored `.env` (template: `.env.example`)
 - Migrations applied: 001 (profiles + RLS + auto-create trigger), 002 (documents/document_chunks/playback_positions + RLS)
+- Edge functions deployed: `extract-web`
+- Supabase CLI is logged in and linked to this project on Giacomo's machine — deploys can be run directly from here going forward (no need to hand back to Giacomo each time)
 
 ## Package / Bundle IDs
 - Android package: `com.giamat90.readit`
@@ -32,8 +34,9 @@ Scaffold TESTED on device (Moto G 5G, serial ZY22BHCRLF) and merged to `main`: t
 - [x] TASK-002 implemented, device-TESTED, merged to `main` (auth flow works end-to-end)
 - [x] TASK-003 implemented, device-TESTED, merged to `main` (paste → chunk → listen, en/it voice detection)
 - [x] TASK-004 implemented, device-TESTED, merged to `main` (persisted documents, library list, resume)
-- [ ] TASK-005 specced (DRAFT) — awaiting Giacomo's approval
-- [ ] Web / PDF / photo import (TASK-005..007)
+- [x] TASK-005 implemented, device-TESTED, merged to `main` (web import via extract-web edge function, deployed)
+- [ ] TASK-006 specced (DRAFT) — awaiting Giacomo's approval
+- [ ] PDF / photo import (TASK-006..007)
 - [ ] Settings + i18n (TASK-008)
 - [ ] RevenueCat + Pro gating (TASK-009) — pricing proposal in CLAUDE.md needs Giacomo's confirmation
 - [ ] EAS build + Play Store prep (TASK-010)
