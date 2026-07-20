@@ -36,9 +36,9 @@ Scaffold TESTED on device (Moto G 5G, serial ZY22BHCRLF) and merged to `main`: t
 - [x] TASK-004 implemented, device-TESTED, merged to `main` (persisted documents, library list, resume)
 - [x] TASK-005 implemented, device-TESTED, merged to `main` (web import via extract-web edge function, deployed)
 - [x] TASK-006 implemented, device-TESTED, merged to `main` (PDF import via extract-pdf edge function, deployed)
-- [ ] TASK-007 specced (DRAFT) — awaiting Giacomo's approval
-- [ ] Photo import (TASK-007)
-- [ ] Settings + i18n (TASK-008)
+- [ ] TASK-007 PAUSED — code complete on `feat/task-007-photo-import`, migration 004 applied; needs ANTHROPIC_API_KEY secret + native rebuild + device test to finish (Giacomo's todo, revisit anytime)
+- [x] TASK-008 implemented, device-TESTED, merged to `main` (voice/speed/language settings; fixed a bug where fresh web/pdf imports ignored their own server-detected language)
+- [ ] TASK-009 next: RevenueCat + Pro gating + import quotas
 - [ ] RevenueCat + Pro gating (TASK-009) — pricing proposal in CLAUDE.md needs Giacomo's confirmation
 - [ ] EAS build + Play Store prep (TASK-010)
 
