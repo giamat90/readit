@@ -1,0 +1,74 @@
+{
+  "common": {
+    "cancel": "Abbrechen",
+    "delete": "Löschen"
+  },
+  "tabs": {
+    "library": "Bibliothek",
+    "settings": "Einstellungen"
+  },
+  "library": {
+    "title": "Bibliothek",
+    "empty": "Importiere etwas, um mit dem Hören zu beginnen",
+    "progress": "{{current}} von {{total}}",
+    "deleteTitle": "Dokument löschen",
+    "deleteConfirm": "„{{title}}“ aus deiner Bibliothek entfernen?"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "voice": "Stimme",
+    "rate": "Lesegeschwindigkeit",
+    "language": "App-Sprache",
+    "account": "Konto",
+    "signedInAs": "Angemeldet als",
+    "comingSoon": "Demnächst verfügbar",
+    "voiceDefault": "Geräte-Standard",
+    "selectVoice": "Stimme",
+    "selectRate": "Lesegeschwindigkeit",
+    "selectLanguage": "App-Sprache",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português"
+  },
+  "import": {
+    "pasteTitle": "Text einfügen",
+    "titlePlaceholder": "Titel (optional)",
+    "textPlaceholder": "Füge den Text ein oder tippe ihn ein, den du hören möchtest…",
+    "listen": "Anhören",
+    "fromWeb": "Von einem Link importieren",
+    "urlPlaceholder": "Link einfügen (https://…)",
+    "extract": "Extrahieren & anhören",
+    "pasteFromClipboard": "Aus der Zwischenablage einfügen",
+    "errorInvalidUrl": "Das sieht nicht nach einem gültigen Link aus",
+    "errorFetchFailed": "Die Seite konnte nicht abgerufen werden. Prüfe deine Verbindung oder versuche einen anderen Link.",
+    "errorNoContent": "Auf dieser Seite wurde kein lesbarer Artikel gefunden",
+    "fromPdf": "PDF importieren",
+    "selectPdf": "PDF auswählen",
+    "uploading": "Wird hochgeladen…",
+    "extracting": "Text wird extrahiert…",
+    "errorPasswordProtected": "Diese PDF-Datei ist passwortgeschützt",
+    "errorNoTextFound": "In dieser PDF-Datei wurde kein lesbarer Text gefunden",
+    "errorCorruptFile": "Diese Datei konnte nicht gelesen werden"
+  },
+  "player": {
+    "speed": "Geschwindigkeit",
+    "done": "Ende"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signUp": "Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submitSignIn": "Anmelden",
+    "submitSignUp": "Konto erstellen",
+    "toggleToSignUp": "Noch kein Konto? Erstelle eins",
+    "toggleToSignIn": "Schon ein Konto? Anmelden",
+    "errorInvalidCredentials": "Falsche E-Mail-Adresse oder falsches Passwort",
+    "errorGeneric": "Etwas ist schiefgelaufen. Prüfe deine Verbindung und versuche es erneut.",
+    "signOut": "Abmelden",
+    "signOutConfirm": "Von ReadIt abmelden?"
+  }
+}

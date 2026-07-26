@@ -1,6 +1,6 @@
 # TASK-012: Add Spanish, German, French, Portuguese UI languages
 
-## Status: APPROVED
+## Status: DONE
 
 ## Overview
 ReadIt currently ships 2 UI languages (English, Italian). This task extends UI-language support to 6 total by adding Spanish (`es`), German (`de`), French (`fr`), and Portuguese (`pt`) — full translations of every existing key, wired into `i18next` and the language picker. This is UI-chrome language only (button labels, screen titles, error copy) — it has no relation to a document's detected spoken language or TTS voice selection, which are handled entirely separately (see Notes).

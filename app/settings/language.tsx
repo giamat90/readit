@@ -6,9 +6,13 @@ import { useTranslation } from "react-i18next";
 import { updatePreferences } from "@/lib/preferences";
 import { COLORS } from "@/constants";
 
-const LANGUAGES: { code: string; labelKey: string }[] = [
+export const LANGUAGES: { code: string; labelKey: string }[] = [
   { code: "en", labelKey: "settings.english" },
   { code: "it", labelKey: "settings.italian" },
+  { code: "es", labelKey: "settings.spanish" },
+  { code: "de", labelKey: "settings.german" },
+  { code: "fr", labelKey: "settings.french" },
+  { code: "pt", labelKey: "settings.portuguese" },
 ];
 
 export default function LanguageSettingScreen() {

@@ -1,0 +1,74 @@
+{
+  "common": {
+    "cancel": "Cancelar",
+    "delete": "Eliminar"
+  },
+  "tabs": {
+    "library": "Biblioteca",
+    "settings": "Ajustes"
+  },
+  "library": {
+    "title": "Biblioteca",
+    "empty": "Importa algo para empezar a escuchar",
+    "progress": "{{current}} de {{total}}",
+    "deleteTitle": "Eliminar documento",
+    "deleteConfirm": "¿Eliminar \"{{title}}\" de tu biblioteca?"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "voice": "Voz",
+    "rate": "Velocidad de lectura",
+    "language": "Idioma de la app",
+    "account": "Cuenta",
+    "signedInAs": "Sesión iniciada como",
+    "comingSoon": "Próximamente",
+    "voiceDefault": "Predeterminada del dispositivo",
+    "selectVoice": "Voz",
+    "selectRate": "Velocidad de lectura",
+    "selectLanguage": "Idioma de la app",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português"
+  },
+  "import": {
+    "pasteTitle": "Pegar texto",
+    "titlePlaceholder": "Título (opcional)",
+    "textPlaceholder": "Pega o escribe el texto que quieres escuchar…",
+    "listen": "Escuchar",
+    "fromWeb": "Importar desde un enlace",
+    "urlPlaceholder": "Pega un enlace (https://…)",
+    "extract": "Extraer y escuchar",
+    "pasteFromClipboard": "Pegar desde el portapapeles",
+    "errorInvalidUrl": "Eso no parece un enlace válido",
+    "errorFetchFailed": "No se pudo cargar esa página. Comprueba tu conexión o prueba con otro enlace.",
+    "errorNoContent": "No se encontró ningún artículo legible en esa página",
+    "fromPdf": "Importar PDF",
+    "selectPdf": "Selecciona un PDF",
+    "uploading": "Subiendo…",
+    "extracting": "Extrayendo texto…",
+    "errorPasswordProtected": "Este PDF está protegido con contraseña",
+    "errorNoTextFound": "No se encontró texto legible en este PDF",
+    "errorCorruptFile": "No se pudo leer este archivo"
+  },
+  "player": {
+    "speed": "Velocidad",
+    "done": "Fin"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Crear cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submitSignIn": "Iniciar sesión",
+    "submitSignUp": "Crear cuenta",
+    "toggleToSignUp": "¿No tienes cuenta? Crea una",
+    "toggleToSignIn": "¿Ya tienes cuenta? Inicia sesión",
+    "errorInvalidCredentials": "Correo o contraseña incorrectos",
+    "errorGeneric": "Algo salió mal. Comprueba tu conexión e inténtalo de nuevo.",
+    "signOut": "Cerrar sesión",
+    "signOutConfirm": "¿Cerrar sesión de ReadIt?"
+  }
+}
