@@ -22,6 +22,8 @@ Bundles/
 !.env.example
 google-services.json
 *service-account*.json
+GoogleCloud/
+keystore_secure/
 
 # Claude Code local runtime state
 .claude/
