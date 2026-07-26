@@ -1,8 +1,8 @@
 # TASK-007: Photo import — extract-photo edge function (Claude vision OCR)
 
-## Status: DEFERRED (not in v1.0 MVP)
+## Status: DEFERRED (not in v1.0 MVP) — code already exists, unmerged
 
-Deferred out of v1.0 scope — see CLAUDE.md's "v1.0 scope" OUT list. The spec below is left intact for when this is picked back up. Before implementing, re-promote it to v1.0/v1.1 scope in CLAUDE.md and update `readit-support/privacy-policy.html` + `terms-of-service.html` to disclose photo/Claude OCR processing again (they were stripped of this language while the feature was deferred).
+Deferred out of v1.0 scope — see CLAUDE.md's "v1.0 scope" OUT list. **Implementation is not actually missing**: it's code-complete on branch `feat/task-007-photo-import` (extract-photo edge function, migration 004, `photo.tsx`, i18n strings) but was paused on 2026-07-20 pending the `ANTHROPIC_API_KEY` secret + a native rebuild + device test, and was never merged to master — so it isn't in the shipped app. Do not delete that branch. To resume: get the API key set, rebuild natively, device-test, merge, re-promote this to v1.0/v1.1 scope in CLAUDE.md, and update `readit-support/privacy-policy.html` + `terms-of-service.html` to disclose photo/Claude OCR processing again (they were stripped of this language while the feature was unmerged).
 
 ## Overview
 Fourth and final v1.0 import path: take a photo (or pick one from the gallery) of printed text and have Claude's vision model read it via OCR, returning clean reading-order text. This is the one extraction pipeline that doesn't parse a structured format — it's genuinely reading an image — so accuracy depends on lighting/angle/print quality more than the others. Same overall shape as TASK-005/006 (upload → extract → chunk → save → reply), but the "extraction" step is a Claude API call instead of Readability/unpdf.

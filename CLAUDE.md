@@ -211,7 +211,7 @@ Only the debug script skips `expo prebuild`. The native `android/` project is ge
 - Android only
 
 ### OUT (v1.1+)
-- Photo import (Claude vision OCR) — **deferred from v1.0**; TASK-007 spec exists (status: DEFERRED) but is not scheduled. Re-promote to IN scope when picked back up, and update `readit-support/privacy-policy.html` + `terms-of-service.html` accordingly before shipping (see "Support site" below)
+- Photo import (Claude vision OCR) — **deferred from v1.0**; code-complete on unmerged branch `feat/task-007-photo-import` (do not delete), paused pending `ANTHROPIC_API_KEY` + native rebuild + device test. Re-promote to IN scope, merge, and update `readit-support/privacy-policy.html` + `terms-of-service.html` accordingly before shipping (see "Support site" below)
 - Neural voices + true background playback (v1.1, Pro headline)
 - Android share-sheet target ("Share → ReadIt") (v1.1)
 - Audio file export (v1.2)
