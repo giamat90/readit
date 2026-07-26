@@ -1,6 +1,8 @@
 # TASK-007: Photo import — extract-photo edge function (Claude vision OCR)
 
-## Status: DRAFT
+## Status: DEFERRED (not in v1.0 MVP)
+
+Deferred out of v1.0 scope — see CLAUDE.md's "v1.0 scope" OUT list. The spec below is left intact for when this is picked back up. Before implementing, re-promote it to v1.0/v1.1 scope in CLAUDE.md and update `readit-support/privacy-policy.html` + `terms-of-service.html` to disclose photo/Claude OCR processing again (they were stripped of this language while the feature was deferred).
 
 ## Overview
 Fourth and final v1.0 import path: take a photo (or pick one from the gallery) of printed text and have Claude's vision model read it via OCR, returning clean reading-order text. This is the one extraction pipeline that doesn't parse a structured format — it's genuinely reading an image — so accuracy depends on lighting/angle/print quality more than the others. Same overall shape as TASK-005/006 (upload → extract → chunk → save → reply), but the "extraction" step is a Claude API call instead of Readability/unpdf.
