@@ -1,6 +1,6 @@
 # TASK-011: Locale key validation script
 
-## Status: APPROVED
+## Status: DONE
 
 ## Overview
 CLAUDE.md has long warned that "duplicate JSON keys silently break translations — always validate locale files," but no such validation exists in the repo. `JSON.parse` silently keeps only the last of any duplicate key, so a copy-paste mistake in a locale file fails silently at runtime (missing/wrong string) instead of at build time. This task adds a script that catches duplicate keys and missing/extra keys across all `locales/*.json` files, run via `npm run validate-locales`. It must land before TASK-012 (adding 4 new locale files) so those additions are guarded from day one.
