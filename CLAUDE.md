@@ -146,6 +146,22 @@ CREATE TABLE playback_positions (
 5. **Extraction fetch functions**: define outside component scope to avoid infinite re-render loops
 6. **Never log document content** — only metadata (document_id, source_type, char_count). Users may import private texts
 7. **expo-speech chunk advance**: drive from `onDone` callback, never `setTimeout` estimates
+8. **After every merge to `master` and every app version bump**: review whether `readit-support/` (privacy policy, terms of service, contact, delete-account) needs updating — see "Support site" below. Do this before cutting a release build, not after
+
+## Support site (privacy policy / terms of service)
+
+Legal/support pages live in `readit-support/` — a separate git repo nested inside this working tree (its own `.git`, own remote), pushed to `giamat90/readit-support` on GitHub and served via GitHub Pages at `https://giamat90.github.io/readit-support/`. Contains `privacy-policy.html`, `terms-of-service.html`, `contact.html`, `delete-account.html`, styled with ReadIt's own palette (`constants/index.ts` colors, not GreenThumb's).
+
+This is the URL registered in Google Play Console's Data Safety section — **it must accurately reflect what the shipped app actually does**, or the Data Safety declaration is wrong (a compliance problem, not just a docs one).
+
+**Checklist to run after every merge to `master` and every version bump**, before cutting a release build:
+- Did this merge add/remove a data type collected (new profile field, new table, new permission)?
+- Did it add/remove a third-party processor (new edge function calling an external API, new SDK)?
+- Did it ship a previously-deferred import path (e.g. photo/OCR — see TASK-007) or remove one?
+- Did it change account deletion behavior, retention, or what gets deleted?
+- Did it introduce payments/subscriptions (RevenueCat / TASK-009)? The Terms' "Cost" section currently states the app is free with no payment processing — that must change the moment billing ships.
+
+If any answer is yes, update the relevant page(s) in `readit-support/`, bump their "Last updated" date, commit, and push — same as any other repo, no special deploy step required (GitHub Pages redeploys automatically on push to `main`).
 
 ## Supabase Edge Functions — Deploy Protocol
 
@@ -186,7 +202,7 @@ Only the debug script skips `expo prebuild`. The native `android/` project is ge
 
 ### IN
 - Supabase auth (email + Google)
-- All four import paths: paste, web URL, PDF, photo (Claude OCR)
+- Three import paths: paste, web URL, PDF
 - On-device TTS player: play/pause, skip paragraph, speed 0.5×–2×, voice picker
 - Current-chunk highlighting in the text view while speaking
 - Library with per-document progress + resume
@@ -195,6 +211,7 @@ Only the debug script skips `expo prebuild`. The native `android/` project is ge
 - Android only
 
 ### OUT (v1.1+)
+- Photo import (Claude vision OCR) — **deferred from v1.0**; TASK-007 spec exists (status: DEFERRED) but is not scheduled. Re-promote to IN scope when picked back up, and update `readit-support/privacy-policy.html` + `terms-of-service.html` accordingly before shipping (see "Support site" below)
 - Neural voices + true background playback (v1.1, Pro headline)
 - Android share-sheet target ("Share → ReadIt") (v1.1)
 - Audio file export (v1.2)
@@ -210,7 +227,7 @@ Only the debug script skips `expo prebuild`. The native `android/` project is ge
 | TASK-004 | `documents`/`document_chunks`/`playback_positions` tables, library screen, resume |
 | TASK-005 | Web import: `extract-web` edge function + URL screen |
 | TASK-006 | PDF import: storage upload + `extract-pdf` edge function |
-| TASK-007 | Photo import: `extract-photo` edge function (Claude vision OCR) |
+| TASK-007 | Photo import: `extract-photo` edge function (Claude vision OCR) — **DEFERRED, not in MVP** (see v1.0 scope OUT) |
 | TASK-008 | Settings: voice picker, default rate, app language, i18n en/it |
 | TASK-009 | RevenueCat + Pro gating + import quotas |
 | TASK-010 | Polish, error states, EAS preview build, Play Store prep |

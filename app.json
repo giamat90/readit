@@ -25,7 +25,8 @@
       "output": "static"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "./plugins/withReleaseSigning.js"
     ],
     "experiments": {
       "typedRoutes": true

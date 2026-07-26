@@ -36,3 +36,6 @@ release_build.log
 npm-debug.*
 *.orig.*
 .DS_Store
+
+# Support site — independent nested git repo (giamat90/readit-support), not part of this repo's history
+readit-support/

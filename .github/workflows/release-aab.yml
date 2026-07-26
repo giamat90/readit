@@ -1,0 +1,77 @@
+name: Release AAB (Play Store)
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Write .env
+        run: |
+          echo "EXPO_PUBLIC_SUPABASE_URL=${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}" >> .env
+          echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
+
+      - name: Decode release keystore
+        run: echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > "$HOME/release.keystore"
+
+      - name: Configure Gradle signing properties
+        run: |
+          mkdir -p "$HOME/.gradle"
+          cat >> "$HOME/.gradle/gradle.properties" <<EOF
+          RELEASE_STORE_FILE=$HOME/release.keystore
+          RELEASE_STORE_PASSWORD=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}
+          EOF
+
+      - name: Read version from app.json
+        id: version
+        run: |
+          echo "name=$(node -p "require('./app.json').expo.version")" >> "$GITHUB_OUTPUT"
+          echo "code=$(node -p "require('./app.json').expo.android.versionCode")" >> "$GITHUB_OUTPUT"
+
+      - name: Prebuild Android project
+        run: npx expo prebuild --platform android --clean
+
+      - name: Build release bundle
+        working-directory: android
+        run: ./gradlew bundleRelease -PappVersionCode=${{ steps.version.outputs.code }} -PappVersionName=${{ steps.version.outputs.name }}
+
+      - name: Rename artifact
+        run: |
+          mkdir -p Bundles
+          mv android/app/build/outputs/bundle/release/app-release.aab "Bundles/app-release-v${{ steps.version.outputs.name }}-${{ steps.version.outputs.code }}.aab"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: readit-release-aab
+          path: Bundles/*.aab
+
+      - name: Publish to Google Play (internal track)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.giamat90.readit
+          releaseFiles: Bundles/*.aab
+          track: internal
+          status: completed
