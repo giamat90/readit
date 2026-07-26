@@ -73,5 +73,5 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.giamat90.readit
           releaseFiles: Bundles/*.aab
-          track: internal
+          tracks: internal
           status: completed
