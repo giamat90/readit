@@ -198,6 +198,23 @@ Only the debug script skips `expo prebuild`. The native `android/` project is ge
 
 `build_bundle_android_release.bat` reads version info straight from `app.json`, so bump `version`/`android.versionCode` there before cutting a release bundle.
 
+## Release CI (GitHub Actions)
+
+Two workflows in `.github/workflows/` mirror the local build scripts above, running on a fresh checkout instead of Giacomo's machine:
+
+- **`release-apk.yml`** — manual trigger only (`workflow_dispatch`, or `gh workflow run "Release APK (testers)"`). Builds a release-signed `.apk` and uploads it as a workflow artifact, for handing to testers.
+- **`release-aab.yml`** — triggers on pushing a `v*.*.*` tag (also has `workflow_dispatch` for manual reruns). Builds the `.aab`, uploads it as a workflow artifact, then publishes to the Play Console **`internal`** track (deliberately not `production` — promote manually when ready).
+
+Both do: checkout → Node 22 → `npm ci` → JDK 17 → Android SDK → write `.env` from secrets → decode the release keystore → write signing values to `~/.gradle/gradle.properties` → `npx expo prebuild --platform android --clean` → `gradlew {assembleRelease,bundleRelease}` → rename artifact into `Bundles/app-release-v<version>-<code>.{apk,aab}`.
+
+**Why a config plugin is required**: `android/app/build.gradle` is regenerated from scratch by `expo prebuild --clean` and isn't tracked in git, so a real release signing config can't be hand-edited into it — it would vanish on the next prebuild. `plugins/withReleaseSigning.js` re-injects a `signingConfigs.release` block (reading `RELEASE_STORE_FILE`/`RELEASE_STORE_PASSWORD`/`RELEASE_KEY_ALIAS`/`RELEASE_KEY_PASSWORD` via `project.hasProperty(...)`) on every prebuild, and switches the release `buildType` to use it when those properties are present — falling back to the debug keystore otherwise, so local dev builds are unaffected. It throws a clear error if its anchors don't match the generated file, so a future Expo SDK upgrade that changes the template fails loudly instead of silently shipping a debug-signed release.
+
+**GitHub repo secrets required** (`gh secret list` to check): `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`, `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, `PLAY_SERVICE_ACCOUNT_JSON` (only needed for the `.aab` workflow's publish step — needs a Google Cloud service account with Release Manager access on `com.giamat90.readit` in Play Console's API access page).
+
+**Keystore backup**: the release keystore (`readit-release.jks`) and its password live at `C:\Users\giaco\Documents\ReadIt-release-keystore\` on Giacomo's machine — back this up to durable secure storage (password manager / cloud). It is never committed (`.gitignore` covers `*.jks`/`*.keystore`) and losing it permanently blocks future Play Store updates. If a `GoogleCloud/` or `keystore_secure/` folder appears at the repo root during future credential handling, `.gitignore` already covers both by name — but double-check before ever running a broad `git add`, since one already slipped in unignored once (a GCP service-account key downloaded with a `<project-id>-<hash>.json` name that didn't match the `*service-account*.json` pattern).
+
+**`npm ci` vs `npm install`**: CI uses `npm ci`, which fails hard if `package-lock.json` is out of sync with `package.json` — `npm install` tolerates drift that `npm ci` won't. Run `npm install` locally after any dependency change and commit the resulting lock file, not just `package.json`.
+
 ## v1.0 scope
 
 ### IN
