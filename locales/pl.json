@@ -1,0 +1,82 @@
+{
+  "common": {
+    "cancel": "Anuluj",
+    "delete": "Usuń"
+  },
+  "tabs": {
+    "library": "Biblioteka",
+    "settings": "Ustawienia"
+  },
+  "library": {
+    "title": "Biblioteka",
+    "empty": "Zaimportuj coś, aby zacząć słuchać",
+    "progress": "{{current}} z {{total}}",
+    "deleteTitle": "Usuń dokument",
+    "deleteConfirm": "Usunąć \"{{title}}\" z biblioteki?"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "voice": "Głos",
+    "rate": "Szybkość czytania",
+    "language": "Język aplikacji",
+    "account": "Konto",
+    "signedInAs": "Zalogowano jako",
+    "comingSoon": "Wkrótce dostępne",
+    "voiceDefault": "Domyślny głos urządzenia",
+    "selectVoice": "Głos",
+    "selectRate": "Szybkość czytania",
+    "selectLanguage": "Język aplikacji",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands",
+    "korean": "한국어",
+    "polish": "Polski",
+    "turkish": "Türkçe",
+    "ukrainian": "Українська"
+  },
+  "import": {
+    "pasteTitle": "Wklej tekst",
+    "titlePlaceholder": "Tytuł (opcjonalnie)",
+    "textPlaceholder": "Wklej lub wpisz tekst, którego chcesz posłuchać…",
+    "listen": "Słuchaj",
+    "fromWeb": "Importuj z linku",
+    "urlPlaceholder": "Wklej link (https://…)",
+    "extract": "Wyodrębnij i słuchaj",
+    "pasteFromClipboard": "Wklej ze schowka",
+    "errorInvalidUrl": "To nie wygląda na prawidłowy link",
+    "errorFetchFailed": "Nie udało się pobrać tej strony. Sprawdź połączenie lub spróbuj innego linku.",
+    "errorNoContent": "Nie znaleziono czytelnego artykułu na tej stronie",
+    "fromPdf": "Importuj PDF",
+    "selectPdf": "Wybierz PDF",
+    "uploading": "Przesyłanie…",
+    "extracting": "Wyodrębnianie tekstu…",
+    "errorPasswordProtected": "Ten plik PDF jest chroniony hasłem",
+    "errorNoTextFound": "Nie znaleziono czytelnego tekstu w tym pliku PDF",
+    "errorCorruptFile": "Nie udało się odczytać tego pliku"
+  },
+  "player": {
+    "speed": "Szybkość",
+    "done": "Koniec"
+  },
+  "auth": {
+    "signIn": "Zaloguj się",
+    "signUp": "Utwórz konto",
+    "email": "E-mail",
+    "password": "Hasło",
+    "submitSignIn": "Zaloguj się",
+    "submitSignUp": "Utwórz konto",
+    "toggleToSignUp": "Nie masz konta? Utwórz je",
+    "toggleToSignIn": "Masz już konto? Zaloguj się",
+    "errorInvalidCredentials": "Nieprawidłowy e-mail lub hasło",
+    "errorGeneric": "Coś poszło nie tak. Sprawdź połączenie i spróbuj ponownie.",
+    "signOut": "Wyloguj się",
+    "signOutConfirm": "Wylogować się z ReadIt?"
+  }
+}

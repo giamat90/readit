@@ -12,8 +12,12 @@ import ja from "@/locales/ja.json";
 import zh from "@/locales/zh.json";
 import ru from "@/locales/ru.json";
 import nl from "@/locales/nl.json";
+import ko from "@/locales/ko.json";
+import pl from "@/locales/pl.json";
+import tr from "@/locales/tr.json";
+import uk from "@/locales/uk.json";
 
-const SUPPORTED = ["en", "it", "es", "de", "fr", "pt", "ja", "zh", "ru", "nl"];
+const SUPPORTED = ["en", "it", "es", "de", "fr", "pt", "ja", "zh", "ru", "nl", "ko", "pl", "tr", "uk"];
 
 export const deviceLanguage = (): string => {
   const code = Localization.getLocales()[0]?.languageCode ?? "en";
@@ -32,6 +36,10 @@ i18n.use(initReactI18next).init({
     zh: { translation: zh },
     ru: { translation: ru },
     nl: { translation: nl },
+    ko: { translation: ko },
+    pl: { translation: pl },
+    tr: { translation: tr },
+    uk: { translation: uk },
   },
   lng: deviceLanguage(),
   fallbackLng: "en",

@@ -1,0 +1,82 @@
+{
+  "common": {
+    "cancel": "İptal",
+    "delete": "Sil"
+  },
+  "tabs": {
+    "library": "Kitaplık",
+    "settings": "Ayarlar"
+  },
+  "library": {
+    "title": "Kitaplık",
+    "empty": "Dinlemeye başlamak için bir şey içe aktar",
+    "progress": "{{current}} / {{total}}",
+    "deleteTitle": "Belgeyi sil",
+    "deleteConfirm": "\"{{title}}\" kitaplıktan kaldırılsın mı?"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "voice": "Ses",
+    "rate": "Okuma hızı",
+    "language": "Uygulama dili",
+    "account": "Hesap",
+    "signedInAs": "Şu hesapla giriş yapıldı",
+    "comingSoon": "Yakında",
+    "voiceDefault": "Cihaz varsayılanı",
+    "selectVoice": "Ses",
+    "selectRate": "Okuma hızı",
+    "selectLanguage": "Uygulama dili",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands",
+    "korean": "한국어",
+    "polish": "Polski",
+    "turkish": "Türkçe",
+    "ukrainian": "Українська"
+  },
+  "import": {
+    "pasteTitle": "Metni yapıştır",
+    "titlePlaceholder": "Başlık (isteğe bağlı)",
+    "textPlaceholder": "Dinlemek istediğin metni yapıştır veya yaz…",
+    "listen": "Dinle",
+    "fromWeb": "Bağlantıdan içe aktar",
+    "urlPlaceholder": "Bir bağlantı yapıştır (https://…)",
+    "extract": "Çıkar ve dinle",
+    "pasteFromClipboard": "Panodan yapıştır",
+    "errorInvalidUrl": "Bu geçerli bir bağlantı gibi görünmüyor",
+    "errorFetchFailed": "Bu sayfa alınamadı. Bağlantını kontrol et veya başka bir link dene.",
+    "errorNoContent": "Bu sayfada okunabilir bir makale bulunamadı",
+    "fromPdf": "PDF içe aktar",
+    "selectPdf": "Bir PDF seç",
+    "uploading": "Yükleniyor…",
+    "extracting": "Metin çıkarılıyor…",
+    "errorPasswordProtected": "Bu PDF parola ile korunuyor",
+    "errorNoTextFound": "Bu PDF'de okunabilir metin bulunamadı",
+    "errorCorruptFile": "Bu dosya okunamadı"
+  },
+  "player": {
+    "speed": "Hız",
+    "done": "Bitti"
+  },
+  "auth": {
+    "signIn": "Giriş yap",
+    "signUp": "Hesap oluştur",
+    "email": "E-posta",
+    "password": "Parola",
+    "submitSignIn": "Giriş yap",
+    "submitSignUp": "Hesap oluştur",
+    "toggleToSignUp": "Hesabın yok mu? Bir tane oluştur",
+    "toggleToSignIn": "Zaten hesabın var mı? Giriş yap",
+    "errorInvalidCredentials": "E-posta veya parola yanlış",
+    "errorGeneric": "Bir şeyler ters gitti. Bağlantını kontrol edip tekrar dene.",
+    "signOut": "Çıkış yap",
+    "signOutConfirm": "ReadIt'ten çıkış yapılsın mı?"
+  }
+}

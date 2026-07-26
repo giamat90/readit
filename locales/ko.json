@@ -1,0 +1,82 @@
+{
+  "common": {
+    "cancel": "취소",
+    "delete": "삭제"
+  },
+  "tabs": {
+    "library": "보관함",
+    "settings": "설정"
+  },
+  "library": {
+    "title": "보관함",
+    "empty": "무언가를 가져와서 듣기를 시작하세요",
+    "progress": "{{current}} / {{total}}",
+    "deleteTitle": "문서 삭제",
+    "deleteConfirm": "\"{{title}}\"을(를) 보관함에서 삭제하시겠습니까?"
+  },
+  "settings": {
+    "title": "설정",
+    "voice": "음성",
+    "rate": "읽기 속도",
+    "language": "앱 언어",
+    "account": "계정",
+    "signedInAs": "로그인 계정",
+    "comingSoon": "출시 예정",
+    "voiceDefault": "기기 기본값",
+    "selectVoice": "음성",
+    "selectRate": "읽기 속도",
+    "selectLanguage": "앱 언어",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands",
+    "korean": "한국어",
+    "polish": "Polski",
+    "turkish": "Türkçe",
+    "ukrainian": "Українська"
+  },
+  "import": {
+    "pasteTitle": "텍스트 붙여넣기",
+    "titlePlaceholder": "제목(선택 사항)",
+    "textPlaceholder": "듣고 싶은 텍스트를 붙여넣거나 입력하세요…",
+    "listen": "듣기",
+    "fromWeb": "링크로 가져오기",
+    "urlPlaceholder": "링크 붙여넣기 (https://…)",
+    "extract": "추출 후 듣기",
+    "pasteFromClipboard": "클립보드에서 붙여넣기",
+    "errorInvalidUrl": "유효한 링크가 아닌 것 같습니다",
+    "errorFetchFailed": "해당 페이지를 불러올 수 없습니다. 연결 상태를 확인하거나 다른 링크를 시도해 보세요.",
+    "errorNoContent": "해당 페이지에서 읽을 수 있는 기사를 찾지 못했습니다",
+    "fromPdf": "PDF 가져오기",
+    "selectPdf": "PDF 선택",
+    "uploading": "업로드 중…",
+    "extracting": "텍스트 추출 중…",
+    "errorPasswordProtected": "이 PDF는 비밀번호로 보호되어 있습니다",
+    "errorNoTextFound": "이 PDF에서 읽을 수 있는 텍스트를 찾지 못했습니다",
+    "errorCorruptFile": "이 파일을 읽을 수 없습니다"
+  },
+  "player": {
+    "speed": "속도",
+    "done": "종료"
+  },
+  "auth": {
+    "signIn": "로그인",
+    "signUp": "계정 만들기",
+    "email": "이메일",
+    "password": "비밀번호",
+    "submitSignIn": "로그인",
+    "submitSignUp": "계정 만들기",
+    "toggleToSignUp": "계정이 없으신가요? 계정 만들기",
+    "toggleToSignIn": "이미 계정이 있으신가요? 로그인",
+    "errorInvalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다",
+    "errorGeneric": "문제가 발생했습니다. 연결 상태를 확인한 후 다시 시도해 주세요.",
+    "signOut": "로그아웃",
+    "signOutConfirm": "ReadIt에서 로그아웃하시겠습니까?"
+  }
+}
