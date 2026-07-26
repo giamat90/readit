@@ -1,0 +1,78 @@
+{
+  "common": {
+    "cancel": "キャンセル",
+    "delete": "削除"
+  },
+  "tabs": {
+    "library": "ライブラリ",
+    "settings": "設定"
+  },
+  "library": {
+    "title": "ライブラリ",
+    "empty": "何かをインポートして聴き始めましょう",
+    "progress": "{{current}} / {{total}}",
+    "deleteTitle": "ドキュメントを削除",
+    "deleteConfirm": "「{{title}}」をライブラリから削除しますか?"
+  },
+  "settings": {
+    "title": "設定",
+    "voice": "音声",
+    "rate": "読み上げ速度",
+    "language": "アプリの言語",
+    "account": "アカウント",
+    "signedInAs": "ログイン中のアカウント",
+    "comingSoon": "近日公開",
+    "voiceDefault": "デバイスの標準",
+    "selectVoice": "音声",
+    "selectRate": "読み上げ速度",
+    "selectLanguage": "アプリの言語",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands"
+  },
+  "import": {
+    "pasteTitle": "テキストを貼り付け",
+    "titlePlaceholder": "タイトル(任意)",
+    "textPlaceholder": "聴きたいテキストを貼り付けるか入力してください…",
+    "listen": "聴く",
+    "fromWeb": "リンクからインポート",
+    "urlPlaceholder": "リンクを貼り付け (https://…)",
+    "extract": "抽出して聴く",
+    "pasteFromClipboard": "クリップボードから貼り付け",
+    "errorInvalidUrl": "有効なリンクではないようです",
+    "errorFetchFailed": "ページを取得できませんでした。接続を確認するか、別のリンクを試してください。",
+    "errorNoContent": "そのページに読み取れる記事が見つかりませんでした",
+    "fromPdf": "PDFをインポート",
+    "selectPdf": "PDFを選択",
+    "uploading": "アップロード中…",
+    "extracting": "テキストを抽出中…",
+    "errorPasswordProtected": "このPDFはパスワードで保護されています",
+    "errorNoTextFound": "このPDFに読み取れるテキストが見つかりません",
+    "errorCorruptFile": "このファイルを読み込めませんでした"
+  },
+  "player": {
+    "speed": "速度",
+    "done": "終了"
+  },
+  "auth": {
+    "signIn": "ログイン",
+    "signUp": "アカウントを作成",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "submitSignIn": "ログイン",
+    "submitSignUp": "アカウントを作成",
+    "toggleToSignUp": "アカウントをお持ちでないですか? 作成する",
+    "toggleToSignIn": "すでにアカウントをお持ちですか? ログイン",
+    "errorInvalidCredentials": "メールアドレスまたはパスワードが正しくありません",
+    "errorGeneric": "問題が発生しました。接続を確認してもう一度お試しください。",
+    "signOut": "ログアウト",
+    "signOutConfirm": "ReadItからログアウトしますか?"
+  }
+}

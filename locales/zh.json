@@ -1,0 +1,78 @@
+{
+  "common": {
+    "cancel": "取消",
+    "delete": "删除"
+  },
+  "tabs": {
+    "library": "书库",
+    "settings": "设置"
+  },
+  "library": {
+    "title": "书库",
+    "empty": "导入内容即可开始收听",
+    "progress": "{{current}} / {{total}}",
+    "deleteTitle": "删除文档",
+    "deleteConfirm": "确定要从书库中删除「{{title}}」吗?"
+  },
+  "settings": {
+    "title": "设置",
+    "voice": "语音",
+    "rate": "朗读速度",
+    "language": "应用语言",
+    "account": "账户",
+    "signedInAs": "已登录为",
+    "comingSoon": "即将推出",
+    "voiceDefault": "设备默认",
+    "selectVoice": "语音",
+    "selectRate": "朗读速度",
+    "selectLanguage": "应用语言",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands"
+  },
+  "import": {
+    "pasteTitle": "粘贴文本",
+    "titlePlaceholder": "标题(可选)",
+    "textPlaceholder": "粘贴或输入你想收听的文本…",
+    "listen": "收听",
+    "fromWeb": "从链接导入",
+    "urlPlaceholder": "粘贴链接 (https://…)",
+    "extract": "提取并收听",
+    "pasteFromClipboard": "从剪贴板粘贴",
+    "errorInvalidUrl": "这看起来不是有效的链接",
+    "errorFetchFailed": "无法获取该页面。请检查网络连接或尝试其他链接。",
+    "errorNoContent": "该页面未找到可读文章",
+    "fromPdf": "导入 PDF",
+    "selectPdf": "选择 PDF",
+    "uploading": "正在上传…",
+    "extracting": "正在提取文本…",
+    "errorPasswordProtected": "此 PDF 受密码保护",
+    "errorNoTextFound": "此 PDF 中未找到可读文本",
+    "errorCorruptFile": "无法读取此文件"
+  },
+  "player": {
+    "speed": "速度",
+    "done": "结束"
+  },
+  "auth": {
+    "signIn": "登录",
+    "signUp": "创建账户",
+    "email": "邮箱",
+    "password": "密码",
+    "submitSignIn": "登录",
+    "submitSignUp": "创建账户",
+    "toggleToSignUp": "还没有账户?去创建一个",
+    "toggleToSignIn": "已有账户?去登录",
+    "errorInvalidCredentials": "邮箱或密码错误",
+    "errorGeneric": "出了点问题。请检查网络连接后重试。",
+    "signOut": "退出登录",
+    "signOutConfirm": "要退出 ReadIt 吗?"
+  }
+}

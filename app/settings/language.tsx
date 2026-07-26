@@ -13,6 +13,10 @@ export const LANGUAGES: { code: string; labelKey: string }[] = [
   { code: "de", labelKey: "settings.german" },
   { code: "fr", labelKey: "settings.french" },
   { code: "pt", labelKey: "settings.portuguese" },
+  { code: "ja", labelKey: "settings.japanese" },
+  { code: "zh", labelKey: "settings.chinese" },
+  { code: "ru", labelKey: "settings.russian" },
+  { code: "nl", labelKey: "settings.dutch" },
 ];
 
 export default function LanguageSettingScreen() {

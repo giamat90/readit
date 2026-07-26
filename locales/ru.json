@@ -1,0 +1,78 @@
+{
+  "common": {
+    "cancel": "Отмена",
+    "delete": "Удалить"
+  },
+  "tabs": {
+    "library": "Библиотека",
+    "settings": "Настройки"
+  },
+  "library": {
+    "title": "Библиотека",
+    "empty": "Импортируйте что-нибудь, чтобы начать слушать",
+    "progress": "{{current}} из {{total}}",
+    "deleteTitle": "Удалить документ",
+    "deleteConfirm": "Удалить «{{title}}» из библиотеки?"
+  },
+  "settings": {
+    "title": "Настройки",
+    "voice": "Голос",
+    "rate": "Скорость чтения",
+    "language": "Язык приложения",
+    "account": "Аккаунт",
+    "signedInAs": "Вход выполнен как",
+    "comingSoon": "Скоро появится",
+    "voiceDefault": "По умолчанию на устройстве",
+    "selectVoice": "Голос",
+    "selectRate": "Скорость чтения",
+    "selectLanguage": "Язык приложения",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands"
+  },
+  "import": {
+    "pasteTitle": "Вставить текст",
+    "titlePlaceholder": "Название (необязательно)",
+    "textPlaceholder": "Вставьте или введите текст, который хотите прослушать…",
+    "listen": "Слушать",
+    "fromWeb": "Импорт по ссылке",
+    "urlPlaceholder": "Вставьте ссылку (https://…)",
+    "extract": "Извлечь и слушать",
+    "pasteFromClipboard": "Вставить из буфера обмена",
+    "errorInvalidUrl": "Похоже, это не действительная ссылка",
+    "errorFetchFailed": "Не удалось загрузить страницу. Проверьте подключение или попробуйте другую ссылку.",
+    "errorNoContent": "На этой странице не найдено читаемой статьи",
+    "fromPdf": "Импорт PDF",
+    "selectPdf": "Выбрать PDF",
+    "uploading": "Загрузка…",
+    "extracting": "Извлечение текста…",
+    "errorPasswordProtected": "Этот PDF защищён паролем",
+    "errorNoTextFound": "В этом PDF не найдено читаемого текста",
+    "errorCorruptFile": "Не удалось прочитать этот файл"
+  },
+  "player": {
+    "speed": "Скорость",
+    "done": "Конец"
+  },
+  "auth": {
+    "signIn": "Войти",
+    "signUp": "Создать аккаунт",
+    "email": "Эл. почта",
+    "password": "Пароль",
+    "submitSignIn": "Войти",
+    "submitSignUp": "Создать аккаунт",
+    "toggleToSignUp": "Нет аккаунта? Создать",
+    "toggleToSignIn": "Уже есть аккаунт? Войти",
+    "errorInvalidCredentials": "Неверная эл. почта или пароль",
+    "errorGeneric": "Что-то пошло не так. Проверьте подключение и повторите попытку.",
+    "signOut": "Выйти",
+    "signOutConfirm": "Выйти из ReadIt?"
+  }
+}
