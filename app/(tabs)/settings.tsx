@@ -7,6 +7,7 @@ import type { LucideIcon } from "lucide-react-native";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store/user";
 import { COLORS } from "@/constants";
+import { LANGUAGES } from "@/app/settings/language";
 
 function SettingsRow({
   icon: Icon,
@@ -39,8 +40,9 @@ export default function SettingsScreen() {
   const preferredVoice = useUserStore((s) => s.preferredVoice);
   const preferredRate = useUserStore((s) => s.preferredRate);
 
-  const languageHint =
-    i18n.language === "it" ? t("settings.italian") : t("settings.english");
+  const languageHint = t(
+    LANGUAGES.find((l) => l.code === i18n.language)?.labelKey ?? "settings.english"
+  );
 
   function confirmSignOut() {
     Alert.alert(t("auth.signOut"), t("auth.signOutConfirm"), [

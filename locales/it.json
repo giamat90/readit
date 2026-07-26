@@ -27,7 +27,11 @@
     "selectRate": "Velocità di lettura",
     "selectLanguage": "Lingua dell'app",
     "english": "English",
-    "italian": "Italiano"
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português"
   },
   "import": {
     "pasteTitle": "Incolla testo",

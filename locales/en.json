@@ -27,7 +27,11 @@
     "selectRate": "Reading speed",
     "selectLanguage": "App language",
     "english": "English",
-    "italian": "Italiano"
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português"
   },
   "import": {
     "pasteTitle": "Paste text",

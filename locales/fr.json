@@ -1,0 +1,74 @@
+{
+  "common": {
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+  },
+  "tabs": {
+    "library": "Bibliothèque",
+    "settings": "Réglages"
+  },
+  "library": {
+    "title": "Bibliothèque",
+    "empty": "Importe un contenu pour commencer à écouter",
+    "progress": "{{current}} sur {{total}}",
+    "deleteTitle": "Supprimer le document",
+    "deleteConfirm": "Retirer « {{title}} » de ta bibliothèque ?"
+  },
+  "settings": {
+    "title": "Réglages",
+    "voice": "Voix",
+    "rate": "Vitesse de lecture",
+    "language": "Langue de l'app",
+    "account": "Compte",
+    "signedInAs": "Connecté en tant que",
+    "comingSoon": "Bientôt disponible",
+    "voiceDefault": "Voix par défaut de l'appareil",
+    "selectVoice": "Voix",
+    "selectRate": "Vitesse de lecture",
+    "selectLanguage": "Langue de l'app",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português"
+  },
+  "import": {
+    "pasteTitle": "Coller du texte",
+    "titlePlaceholder": "Titre (facultatif)",
+    "textPlaceholder": "Colle ou saisis le texte que tu veux écouter…",
+    "listen": "Écouter",
+    "fromWeb": "Importer depuis un lien",
+    "urlPlaceholder": "Colle un lien (https://…)",
+    "extract": "Extraire et écouter",
+    "pasteFromClipboard": "Coller depuis le presse-papiers",
+    "errorInvalidUrl": "Cela ne ressemble pas à un lien valide",
+    "errorFetchFailed": "Impossible de récupérer cette page. Vérifie ta connexion ou essaie un autre lien.",
+    "errorNoContent": "Aucun article lisible trouvé sur cette page",
+    "fromPdf": "Importer un PDF",
+    "selectPdf": "Sélectionner un PDF",
+    "uploading": "Envoi en cours…",
+    "extracting": "Extraction du texte…",
+    "errorPasswordProtected": "Ce PDF est protégé par un mot de passe",
+    "errorNoTextFound": "Aucun texte lisible trouvé dans ce PDF",
+    "errorCorruptFile": "Ce fichier n'a pas pu être lu"
+  },
+  "player": {
+    "speed": "Vitesse",
+    "done": "Fin"
+  },
+  "auth": {
+    "signIn": "Se connecter",
+    "signUp": "Créer un compte",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submitSignIn": "Se connecter",
+    "submitSignUp": "Créer un compte",
+    "toggleToSignUp": "Pas de compte ? Crée-en un",
+    "toggleToSignIn": "Déjà un compte ? Connecte-toi",
+    "errorInvalidCredentials": "E-mail ou mot de passe incorrect",
+    "errorGeneric": "Une erreur est survenue. Vérifie ta connexion et réessaie.",
+    "signOut": "Se déconnecter",
+    "signOutConfirm": "Se déconnecter de ReadIt ?"
+  }
+}
