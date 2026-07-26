@@ -1,0 +1,82 @@
+{
+  "common": {
+    "cancel": "Скасувати",
+    "delete": "Видалити"
+  },
+  "tabs": {
+    "library": "Бібліотека",
+    "settings": "Налаштування"
+  },
+  "library": {
+    "title": "Бібліотека",
+    "empty": "Імпортуйте щось, щоб почати слухати",
+    "progress": "{{current}} з {{total}}",
+    "deleteTitle": "Видалити документ",
+    "deleteConfirm": "Видалити «{{title}}» з бібліотеки?"
+  },
+  "settings": {
+    "title": "Налаштування",
+    "voice": "Голос",
+    "rate": "Швидкість читання",
+    "language": "Мова додатка",
+    "account": "Обліковий запис",
+    "signedInAs": "Увійшли як",
+    "comingSoon": "Скоро з'явиться",
+    "voiceDefault": "За замовчуванням на пристрої",
+    "selectVoice": "Голос",
+    "selectRate": "Швидкість читання",
+    "selectLanguage": "Мова додатка",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands",
+    "korean": "한국어",
+    "polish": "Polski",
+    "turkish": "Türkçe",
+    "ukrainian": "Українська"
+  },
+  "import": {
+    "pasteTitle": "Вставити текст",
+    "titlePlaceholder": "Назва (необов'язково)",
+    "textPlaceholder": "Вставте або введіть текст, який хочете прослухати…",
+    "listen": "Слухати",
+    "fromWeb": "Імпорт за посиланням",
+    "urlPlaceholder": "Вставте посилання (https://…)",
+    "extract": "Витягти і слухати",
+    "pasteFromClipboard": "Вставити з буфера обміну",
+    "errorInvalidUrl": "Схоже, це недійсне посилання",
+    "errorFetchFailed": "Не вдалося завантажити цю сторінку. Перевірте з'єднання або спробуйте інше посилання.",
+    "errorNoContent": "На цій сторінці не знайдено статті для читання",
+    "fromPdf": "Імпорт PDF",
+    "selectPdf": "Вибрати PDF",
+    "uploading": "Завантаження…",
+    "extracting": "Видобування тексту…",
+    "errorPasswordProtected": "Цей PDF захищений паролем",
+    "errorNoTextFound": "У цьому PDF не знайдено тексту для читання",
+    "errorCorruptFile": "Не вдалося прочитати цей файл"
+  },
+  "player": {
+    "speed": "Швидкість",
+    "done": "Кінець"
+  },
+  "auth": {
+    "signIn": "Увійти",
+    "signUp": "Створити обліковий запис",
+    "email": "Ел. пошта",
+    "password": "Пароль",
+    "submitSignIn": "Увійти",
+    "submitSignUp": "Створити обліковий запис",
+    "toggleToSignUp": "Немає облікового запису? Створити",
+    "toggleToSignIn": "Уже є обліковий запис? Увійти",
+    "errorInvalidCredentials": "Неправильна ел. пошта або пароль",
+    "errorGeneric": "Щось пішло не так. Перевірте з'єднання і спробуйте ще раз.",
+    "signOut": "Вийти",
+    "signOutConfirm": "Вийти з ReadIt?"
+  }
+}

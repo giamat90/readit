@@ -17,6 +17,10 @@ export const LANGUAGES: { code: string; labelKey: string }[] = [
   { code: "zh", labelKey: "settings.chinese" },
   { code: "ru", labelKey: "settings.russian" },
   { code: "nl", labelKey: "settings.dutch" },
+  { code: "ko", labelKey: "settings.korean" },
+  { code: "pl", labelKey: "settings.polish" },
+  { code: "tr", labelKey: "settings.turkish" },
+  { code: "uk", labelKey: "settings.ukrainian" },
 ];
 
 export default function LanguageSettingScreen() {

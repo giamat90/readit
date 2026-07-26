@@ -35,7 +35,11 @@
     "japanese": "日本語",
     "chinese": "简体中文",
     "russian": "Русский",
-    "dutch": "Nederlands"
+    "dutch": "Nederlands",
+    "korean": "한국어",
+    "polish": "Polski",
+    "turkish": "Türkçe",
+    "ukrainian": "Українська"
   },
   "import": {
     "pasteTitle": "Colar texto",
