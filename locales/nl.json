@@ -1,0 +1,78 @@
+{
+  "common": {
+    "cancel": "Annuleren",
+    "delete": "Verwijderen"
+  },
+  "tabs": {
+    "library": "Bibliotheek",
+    "settings": "Instellingen"
+  },
+  "library": {
+    "title": "Bibliotheek",
+    "empty": "Importeer iets om te beginnen met luisteren",
+    "progress": "{{current}} van {{total}}",
+    "deleteTitle": "Document verwijderen",
+    "deleteConfirm": "\"{{title}}\" uit je bibliotheek verwijderen?"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "voice": "Stem",
+    "rate": "Voorleessnelheid",
+    "language": "App-taal",
+    "account": "Account",
+    "signedInAs": "Ingelogd als",
+    "comingSoon": "Binnenkort beschikbaar",
+    "voiceDefault": "Standaard van apparaat",
+    "selectVoice": "Stem",
+    "selectRate": "Voorleessnelheid",
+    "selectLanguage": "App-taal",
+    "english": "English",
+    "italian": "Italiano",
+    "spanish": "Español",
+    "german": "Deutsch",
+    "french": "Français",
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands"
+  },
+  "import": {
+    "pasteTitle": "Tekst plakken",
+    "titlePlaceholder": "Titel (optioneel)",
+    "textPlaceholder": "Plak of typ de tekst die je wilt beluisteren…",
+    "listen": "Beluisteren",
+    "fromWeb": "Importeren via een link",
+    "urlPlaceholder": "Plak een link (https://…)",
+    "extract": "Extraheren & beluisteren",
+    "pasteFromClipboard": "Plakken vanuit klembord",
+    "errorInvalidUrl": "Dat lijkt geen geldige link",
+    "errorFetchFailed": "Kon die pagina niet ophalen. Controleer je verbinding of probeer een andere link.",
+    "errorNoContent": "Geen leesbaar artikel gevonden op die pagina",
+    "fromPdf": "PDF importeren",
+    "selectPdf": "Selecteer een PDF",
+    "uploading": "Uploaden…",
+    "extracting": "Tekst wordt geëxtraheerd…",
+    "errorPasswordProtected": "Deze PDF is met een wachtwoord beveiligd",
+    "errorNoTextFound": "Geen leesbare tekst gevonden in deze PDF",
+    "errorCorruptFile": "Dit bestand kon niet worden gelezen"
+  },
+  "player": {
+    "speed": "Snelheid",
+    "done": "Einde"
+  },
+  "auth": {
+    "signIn": "Inloggen",
+    "signUp": "Account aanmaken",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "submitSignIn": "Inloggen",
+    "submitSignUp": "Account aanmaken",
+    "toggleToSignUp": "Nog geen account? Maak er een aan",
+    "toggleToSignIn": "Al een account? Inloggen",
+    "errorInvalidCredentials": "Onjuiste e-mail of wachtwoord",
+    "errorGeneric": "Er is iets misgegaan. Controleer je verbinding en probeer het opnieuw.",
+    "signOut": "Uitloggen",
+    "signOutConfirm": "Uitloggen bij ReadIt?"
+  }
+}

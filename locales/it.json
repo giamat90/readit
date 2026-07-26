@@ -31,7 +31,11 @@
     "spanish": "Español",
     "german": "Deutsch",
     "french": "Français",
-    "portuguese": "Português"
+    "portuguese": "Português",
+    "japanese": "日本語",
+    "chinese": "简体中文",
+    "russian": "Русский",
+    "dutch": "Nederlands"
   },
   "import": {
     "pasteTitle": "Incolla testo",
