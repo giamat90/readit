@@ -1,11 +1,10 @@
-import { Alert, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Gauge, Globe, LogOut, Mic } from "lucide-react-native";
+import { Gauge, Globe, Mic } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import type { LucideIcon } from "lucide-react-native";
-import { supabase } from "@/lib/supabase";
-import { useUserStore } from "@/store/user";
+import { usePreferencesStore } from "@/store/preferences";
 import { COLORS } from "@/constants";
 import { LANGUAGES } from "@/app/settings/language";
 
@@ -36,26 +35,12 @@ function SettingsRow({
 export default function SettingsScreen() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
-  const session = useUserStore((s) => s.session);
-  const preferredVoice = useUserStore((s) => s.preferredVoice);
-  const preferredRate = useUserStore((s) => s.preferredRate);
+  const preferredVoice = usePreferencesStore((s) => s.preferredVoice);
+  const preferredRate = usePreferencesStore((s) => s.preferredRate);
 
   const languageHint = t(
     LANGUAGES.find((l) => l.code === i18n.language)?.labelKey ?? "settings.english"
   );
-
-  function confirmSignOut() {
-    Alert.alert(t("auth.signOut"), t("auth.signOutConfirm"), [
-      { text: t("common.cancel"), style: "cancel" },
-      {
-        text: t("auth.signOut"),
-        style: "destructive",
-        onPress: () => {
-          supabase.auth.signOut();
-        },
-      },
-    ]);
-  }
 
   return (
     <SafeAreaView className="flex-1 bg-paper dark:bg-ink">
@@ -83,22 +68,6 @@ export default function SettingsScreen() {
         hint={languageHint}
         onPress={() => router.push("/settings/language")}
       />
-
-      <Pressable
-        accessibilityRole="button"
-        onPress={confirmSignOut}
-        className="flex-row items-center border-b border-muted/20 px-6 py-4"
-      >
-        <LogOut color={COLORS.danger} size={20} />
-        <View className="ml-4 flex-1">
-          <Text className="text-base text-danger">{t("auth.signOut")}</Text>
-          {session?.user.email && (
-            <Text className="mt-0.5 text-xs text-muted">
-              {t("settings.signedInAs")} {session.user.email}
-            </Text>
-          )}
-        </View>
-      </Pressable>
     </SafeAreaView>
   );
 }

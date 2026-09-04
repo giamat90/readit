@@ -1,21 +1,17 @@
-// Shared types — mirror the database schema in CLAUDE.md
+// Shared types — mirror the on-device SQLite schema in lib/db.ts
 
 export type SourceType = "paste" | "web" | "pdf" | "photo";
 
 export type DocumentStatus = "processing" | "ready" | "error";
 
-export interface Profile {
-  id: string;
-  is_pro: boolean;
-  preferred_voice: string | null;
-  preferred_rate: number;
-  app_language: string;
-  created_at: string;
+export interface Preferences {
+  preferredVoice: string | null;
+  preferredRate: number;
+  appLanguage: string;
 }
 
 export interface Document {
   id: string;
-  user_id: string;
   title: string;
   source_type: SourceType;
   source_ref: string | null;
@@ -28,7 +24,6 @@ export interface Document {
 }
 
 export interface DocumentChunk {
-  id: string;
   document_id: string;
   seq: number;
   content: string;
@@ -36,12 +31,12 @@ export interface DocumentChunk {
 
 export interface PlaybackPosition {
   document_id: string;
-  user_id: string;
   chunk_seq: number;
   updated_at: string;
 }
 
-// documents row with its embedded position (PostgREST embed shape)
+// documents row with its playback position folded in (kept as an array so the
+// library UI's progressOf() helper stays unchanged from the old embed shape)
 export interface DocumentWithPosition extends Document {
   playback_positions: Pick<PlaybackPosition, "chunk_seq">[];
 }

@@ -6,13 +6,13 @@ import * as Speech from "expo-speech";
 import { Check } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { updatePreferences } from "@/lib/preferences";
-import { useUserStore } from "@/store/user";
+import { usePreferencesStore } from "@/store/preferences";
 import { COLORS } from "@/constants";
 
 export default function VoiceSettingScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const preferredVoice = useUserStore((s) => s.preferredVoice);
+  const preferredVoice = usePreferencesStore((s) => s.preferredVoice);
   const [voices, setVoices] = useState<Speech.Voice[]>([]);
 
   useEffect(() => {

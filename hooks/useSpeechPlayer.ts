@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import * as Speech from "expo-speech";
 import { getLocales } from "expo-localization";
 import { usePlayerStore } from "@/store/player";
-import { useUserStore } from "@/store/user";
+import { usePreferencesStore } from "@/store/preferences";
 import { CONFIG } from "@/constants";
 
 export const RATE_STEPS = [0.75, 1, 1.25, 1.5, 2] as const;
@@ -33,7 +33,7 @@ export function useSpeechPlayer() {
     if (text === undefined) return;
 
     const resolvedLanguage = language ?? getLocales()[0]?.languageTag ?? "en-US";
-    const preferredVoice = useUserStore.getState().preferredVoice;
+    const preferredVoice = usePreferencesStore.getState().preferredVoice;
     const voice =
       preferredVoice && (await voiceMatchesLanguage(preferredVoice, resolvedLanguage))
         ? preferredVoice

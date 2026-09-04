@@ -55,11 +55,17 @@
     "errorNoContent": "Auf dieser Seite wurde kein lesbarer Artikel gefunden",
     "fromPdf": "PDF importieren",
     "selectPdf": "PDF auswählen",
-    "uploading": "Wird hochgeladen…",
     "extracting": "Text wird extrahiert…",
     "errorPasswordProtected": "Diese PDF-Datei ist passwortgeschützt",
     "errorNoTextFound": "In dieser PDF-Datei wurde kein lesbarer Text gefunden",
-    "errorCorruptFile": "Diese Datei konnte nicht gelesen werden"
+    "errorCorruptFile": "Diese Datei konnte nicht gelesen werden",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "Geschwindigkeit",

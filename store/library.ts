@@ -17,12 +17,7 @@ export const useLibraryStore = create<LibraryState>((set, get) => ({
   fetchDocuments: async () => {
     if (get().documents.length === 0) set({ status: "loading" });
     const documents = await listDocuments();
-    if (documents === null) {
-      // fetch failed (offline) — keep the cached list
-      set({ status: "ready" });
-      return;
-    }
-    set({ documents, status: "ready" });
+    set({ documents: documents ?? get().documents, status: "ready" });
   },
   removeDocument: (id) =>
     set({ documents: get().documents.filter((d) => d.id !== id) }),

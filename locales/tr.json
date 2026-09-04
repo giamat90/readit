@@ -55,11 +55,17 @@
     "errorNoContent": "Bu sayfada okunabilir bir makale bulunamadı",
     "fromPdf": "PDF içe aktar",
     "selectPdf": "Bir PDF seç",
-    "uploading": "Yükleniyor…",
     "extracting": "Metin çıkarılıyor…",
     "errorPasswordProtected": "Bu PDF parola ile korunuyor",
     "errorNoTextFound": "Bu PDF'de okunabilir metin bulunamadı",
-    "errorCorruptFile": "Bu dosya okunamadı"
+    "errorCorruptFile": "Bu dosya okunamadı",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "Hız",

@@ -1,238 +1,251 @@
-import * as FileSystem from "expo-file-system/legacy";
-import { decode } from "base64-arraybuffer";
-import { supabase } from "@/lib/supabase";
+import * as Crypto from "expo-crypto";
+import { getDb } from "@/lib/db";
+import { chunkText } from "@/lib/chunking";
+import { detectLanguage } from "@/lib/language";
+import { extractWeb } from "@/lib/extraction/web";
+import { extractPdf } from "@/lib/extraction/pdf";
+import { extractPhoto } from "@/lib/extraction/photo";
+import { ExtractionError } from "@/lib/extraction/types";
 import type { DocumentWithPosition, SourceType } from "@/types";
 
 // All document data access lives here, outside component scope (CLAUDE.md
-// rule 5). Errors are swallowed with metadata-only warnings — never log
-// document content (rule 6).
-
-async function currentUserId(): Promise<string | null> {
-  const { data } = await supabase.auth.getSession();
-  return data.session?.user.id ?? null;
-}
+// rule 5). Everything is on-device SQLite now — no network, no auth. Errors
+// are swallowed with metadata-only warnings — never log document content
+// (rule 6).
 
 export async function saveDocument(params: {
   title: string;
   chunks: string[];
   sourceType: SourceType;
   language: string | null;
+  sourceRef?: string | null;
 }): Promise<string | null> {
-  const userId = await currentUserId();
-  if (!userId) return null;
-
+  if (params.chunks.length === 0) return null;
+  const db = await getDb();
+  const id = Crypto.randomUUID();
   const charCount = params.chunks.reduce((n, c) => n + c.length, 0);
-  const { data: doc, error } = await supabase
-    .from("documents")
-    .insert({
-      user_id: userId,
-      title: params.title,
-      source_type: params.sourceType,
-      language: params.language,
-      char_count: charCount,
-      chunk_count: params.chunks.length,
-      status: "ready",
-    })
-    .select("id")
-    .single();
-  if (error || !doc) {
-    console.warn("saveDocument: document insert failed", error?.code);
-    return null;
-  }
 
-  const rows = params.chunks.map((content, seq) => ({
-    document_id: doc.id as string,
-    seq,
-    content,
-  }));
-  const { error: chunksError } = await supabase
-    .from("document_chunks")
-    .insert(rows);
-  if (chunksError) {
-    console.warn("saveDocument: chunk insert failed", chunksError.code);
-    await supabase.from("documents").delete().eq("id", doc.id); // no torso docs
+  try {
+    await db.withTransactionAsync(async () => {
+      await db.runAsync(
+        `INSERT INTO documents
+           (id, title, source_type, source_ref, language, char_count, chunk_count, status, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'ready', ?)`,
+        id,
+        params.title,
+        params.sourceType,
+        params.sourceRef ?? null,
+        params.language,
+        charCount,
+        params.chunks.length,
+        new Date().toISOString()
+      );
+      const stmt = await db.prepareAsync(
+        "INSERT INTO document_chunks (document_id, seq, content) VALUES (?, ?, ?)"
+      );
+      try {
+        for (let seq = 0; seq < params.chunks.length; seq++) {
+          await stmt.executeAsync(id, seq, params.chunks[seq]);
+        }
+      } finally {
+        await stmt.finalizeAsync();
+      }
+    });
+    return id;
+  } catch (err) {
+    console.warn("saveDocument failed", (err as Error)?.name);
     return null;
   }
-  return doc.id as string;
 }
 
-/** null = fetch failed (e.g. offline) — caller should keep cached list */
+type DocRow = {
+  id: string;
+  title: string;
+  source_type: SourceType;
+  source_ref: string | null;
+  language: string | null;
+  char_count: number;
+  chunk_count: number;
+  status: DocumentWithPosition["status"];
+  error_msg: string | null;
+  created_at: string;
+  position_seq: number | null;
+};
+
+/** null kept in the signature for callers; only ever returns an array now. */
 export async function listDocuments(): Promise<DocumentWithPosition[] | null> {
-  const { data, error } = await supabase
-    .from("documents")
-    .select("*, playback_positions(chunk_seq)")
-    .order("created_at", { ascending: false });
-  if (error) {
-    console.warn("listDocuments failed", error.code);
-    return null;
+  try {
+    const db = await getDb();
+    const rows = await db.getAllAsync<DocRow>(
+      `SELECT d.*, p.chunk_seq AS position_seq
+         FROM documents d
+         LEFT JOIN playback_positions p ON p.document_id = d.id
+        ORDER BY d.created_at DESC`
+    );
+    return rows.map(({ position_seq, ...doc }) => ({
+      ...doc,
+      playback_positions:
+        position_seq == null ? [] : [{ chunk_seq: position_seq }],
+    }));
+  } catch (err) {
+    console.warn("listDocuments failed", (err as Error)?.name);
+    return [];
   }
-  return (data ?? []) as DocumentWithPosition[];
 }
 
-// Fetches the server-computed title + detected language for a just-extracted
-// document (web/pdf/photo) — extraction determines both server-side, so the
-// importer screens must read them back rather than guessing (e.g. from a
-// raw URL or filename), or playback silently loses the detected language.
 export async function getDocumentMeta(
   documentId: string
 ): Promise<{ title: string; language: string | null } | null> {
-  const { data, error } = await supabase
-    .from("documents")
-    .select("title, language")
-    .eq("id", documentId)
-    .single();
-  if (error || !data) {
-    console.warn("getDocumentMeta failed", error?.code);
+  try {
+    const db = await getDb();
+    const row = await db.getFirstAsync<{ title: string; language: string | null }>(
+      "SELECT title, language FROM documents WHERE id = ?",
+      documentId
+    );
+    return row ?? null;
+  } catch (err) {
+    console.warn("getDocumentMeta failed", (err as Error)?.name);
     return null;
   }
-  return data;
 }
 
 export async function getChunks(documentId: string): Promise<string[]> {
-  const { data, error } = await supabase
-    .from("document_chunks")
-    .select("seq, content")
-    .eq("document_id", documentId)
-    .order("seq", { ascending: true });
-  if (error) {
-    console.warn("getChunks failed", error.code);
+  try {
+    const db = await getDb();
+    const rows = await db.getAllAsync<{ content: string }>(
+      "SELECT content FROM document_chunks WHERE document_id = ? ORDER BY seq ASC",
+      documentId
+    );
+    return rows.map((r) => r.content);
+  } catch (err) {
+    console.warn("getChunks failed", (err as Error)?.name);
     return [];
   }
-  return (data ?? []).map((row) => row.content as string);
 }
 
 export async function upsertPosition(
   documentId: string,
   chunkSeq: number
 ): Promise<void> {
-  const userId = await currentUserId();
-  if (!userId) return;
-  const { error } = await supabase.from("playback_positions").upsert({
-    document_id: documentId,
-    user_id: userId,
-    chunk_seq: chunkSeq,
-    updated_at: new Date().toISOString(),
-  });
-  if (error) console.warn("upsertPosition failed", error.code);
+  try {
+    const db = await getDb();
+    await db.runAsync(
+      `INSERT INTO playback_positions (document_id, chunk_seq, updated_at)
+       VALUES (?, ?, ?)
+       ON CONFLICT(document_id)
+       DO UPDATE SET chunk_seq = excluded.chunk_seq, updated_at = excluded.updated_at`,
+      documentId,
+      chunkSeq,
+      new Date().toISOString()
+    );
+  } catch (err) {
+    console.warn("upsertPosition failed", (err as Error)?.name);
+  }
 }
 
-export async function uploadPdf(
-  uri: string,
-  filename: string
+export async function deleteDocument(documentId: string): Promise<boolean> {
+  try {
+    const db = await getDb();
+    await db.runAsync("DELETE FROM documents WHERE id = ?", documentId);
+    return true;
+  } catch (err) {
+    console.warn("deleteDocument failed", (err as Error)?.name);
+    return false;
+  }
+}
+
+// --- Import orchestration: extract on-device -> chunk -> persist ------------
+
+async function persistExtraction(
+  sourceType: SourceType,
+  extracted: { title: string; text: string; language: string | null },
+  sourceRef: string | null
 ): Promise<string | null> {
-  const userId = await currentUserId();
-  if (!userId) return null;
-
-  try {
-    // Document picker can return content:// URIs on Android, which RN's
-    // fetch() can't read reliably — go through expo-file-system + base64
-    // instead (documented pattern for Expo + Supabase Storage uploads).
-    const base64 = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
-    });
-    const arrayBuffer = decode(base64);
-    const path = `${userId}/${Date.now()}-${filename}`;
-    const { error } = await supabase.storage
-      .from("pdf-uploads")
-      .upload(path, arrayBuffer, { contentType: "application/pdf" });
-    if (error) {
-      console.warn("uploadPdf failed", error.message);
-      return null;
-    }
-    return path;
-  } catch (err) {
-    console.warn("uploadPdf: read/upload error", (err as Error)?.name);
-    return null;
-  }
-}
-
-type ExtractPdfErrorCode =
-  | "invalid_request"
-  | "unauthorized"
-  | "download_failed"
-  | "password_protected"
-  | "no_text_found"
-  | "corrupt_file";
-
-export type ExtractPdfResult =
-  | { documentId: string }
-  | { error: ExtractPdfErrorCode | "network_error" };
-
-export async function callExtractPdf(
-  storagePath: string,
-  filename: string
-): Promise<ExtractPdfResult> {
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token;
-  const anonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
-  const baseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-  if (!token || !anonKey || !baseUrl) return { error: "unauthorized" };
-
-  try {
-    const res = await fetch(`${baseUrl}/functions/v1/extract-pdf`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        apikey: anonKey,
-      },
-      body: JSON.stringify({ storagePath, filename }),
-    });
-    const json = await res.json();
-    if (!res.ok) return { error: json.error ?? "corrupt_file" };
-    return { documentId: json.documentId as string };
-  } catch (err) {
-    console.warn("callExtractPdf: network error", (err as Error)?.name);
-    return { error: "network_error" };
-  }
+  const chunks = chunkText(extracted.text);
+  if (chunks.length === 0) return null;
+  const language = detectLanguage(extracted.text) ?? extracted.language;
+  return saveDocument({
+    title: extracted.title,
+    chunks,
+    sourceType,
+    language,
+    sourceRef,
+  });
 }
 
 type ExtractWebErrorCode =
   | "invalid_url"
   | "fetch_failed"
   | "no_content"
-  | "unauthorized";
+  | "network_error";
 
 export type ExtractWebResult =
   | { documentId: string }
-  | { error: ExtractWebErrorCode | "network_error" };
+  | { error: ExtractWebErrorCode };
 
-// Direct fetch() with Bearer token + apikey — never supabase.functions.invoke()
-// (CLAUDE.md rule 2: invoke() causes JWT 401s).
 export async function callExtractWeb(url: string): Promise<ExtractWebResult> {
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token;
-  const anonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
-  const baseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-  if (!token || !anonKey || !baseUrl) return { error: "unauthorized" };
-
   try {
-    const res = await fetch(`${baseUrl}/functions/v1/extract-web`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-        apikey: anonKey,
-      },
-      body: JSON.stringify({ url }),
-    });
-    const json = await res.json();
-    if (!res.ok) return { error: json.error ?? "fetch_failed" };
-    return { documentId: json.documentId as string };
+    const extracted = await extractWeb(url);
+    const documentId = await persistExtraction("web", extracted, url);
+    if (!documentId) return { error: "no_content" };
+    return { documentId };
   } catch (err) {
-    console.warn("callExtractWeb: network error", (err as Error)?.name);
-    return { error: "network_error" };
+    if (err instanceof ExtractionError) {
+      return { error: err.code as ExtractWebErrorCode };
+    }
+    console.warn("callExtractWeb failed", (err as Error)?.name);
+    return { error: "fetch_failed" };
   }
 }
 
-export async function deleteDocument(documentId: string): Promise<boolean> {
-  const { error } = await supabase
-    .from("documents")
-    .delete()
-    .eq("id", documentId);
-  if (error) {
-    console.warn("deleteDocument failed", error.code);
-    return false;
+type ExtractPdfErrorCode =
+  | "password_protected"
+  | "no_text_found"
+  | "corrupt_file"
+  | "network_error";
+
+export type ExtractPdfResult =
+  | { documentId: string }
+  | { error: ExtractPdfErrorCode };
+
+export async function callExtractPdf(
+  fileUri: string,
+  filename: string
+): Promise<ExtractPdfResult> {
+  try {
+    const extracted = await extractPdf(fileUri, filename);
+    const documentId = await persistExtraction("pdf", extracted, filename);
+    if (!documentId) return { error: "no_text_found" };
+    return { documentId };
+  } catch (err) {
+    if (err instanceof ExtractionError) {
+      return { error: err.code as ExtractPdfErrorCode };
+    }
+    console.warn("callExtractPdf failed", (err as Error)?.name);
+    return { error: "corrupt_file" };
   }
-  return true;
+}
+
+type ExtractPhotoErrorCode = "no_text_detected" | "ocr_failed";
+
+export type ExtractPhotoResult =
+  | { documentId: string }
+  | { error: ExtractPhotoErrorCode };
+
+export async function callExtractPhoto(
+  imageUri: string,
+  filename: string
+): Promise<ExtractPhotoResult> {
+  try {
+    const extracted = await extractPhoto(imageUri, filename);
+    const documentId = await persistExtraction("photo", extracted, null);
+    if (!documentId) return { error: "no_text_detected" };
+    return { documentId };
+  } catch (err) {
+    if (err instanceof ExtractionError) {
+      return { error: err.code as ExtractPhotoErrorCode };
+    }
+    console.warn("callExtractPhoto failed", (err as Error)?.name);
+    return { error: "ocr_failed" };
+  }
 }

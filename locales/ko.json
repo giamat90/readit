@@ -55,11 +55,17 @@
     "errorNoContent": "해당 페이지에서 읽을 수 있는 기사를 찾지 못했습니다",
     "fromPdf": "PDF 가져오기",
     "selectPdf": "PDF 선택",
-    "uploading": "업로드 중…",
     "extracting": "텍스트 추출 중…",
     "errorPasswordProtected": "이 PDF는 비밀번호로 보호되어 있습니다",
     "errorNoTextFound": "이 PDF에서 읽을 수 있는 텍스트를 찾지 못했습니다",
-    "errorCorruptFile": "이 파일을 읽을 수 없습니다"
+    "errorCorruptFile": "이 파일을 읽을 수 없습니다",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "속도",

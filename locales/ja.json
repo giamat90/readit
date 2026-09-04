@@ -55,11 +55,17 @@
     "errorNoContent": "そのページに読み取れる記事が見つかりませんでした",
     "fromPdf": "PDFをインポート",
     "selectPdf": "PDFを選択",
-    "uploading": "アップロード中…",
     "extracting": "テキストを抽出中…",
     "errorPasswordProtected": "このPDFはパスワードで保護されています",
     "errorNoTextFound": "このPDFに読み取れるテキストが見つかりません",
-    "errorCorruptFile": "このファイルを読み込めませんでした"
+    "errorCorruptFile": "このファイルを読み込めませんでした",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "速度",

@@ -55,11 +55,17 @@
     "errorNoContent": "该页面未找到可读文章",
     "fromPdf": "导入 PDF",
     "selectPdf": "选择 PDF",
-    "uploading": "正在上传…",
     "extracting": "正在提取文本…",
     "errorPasswordProtected": "此 PDF 受密码保护",
     "errorNoTextFound": "此 PDF 中未找到可读文本",
-    "errorCorruptFile": "无法读取此文件"
+    "errorCorruptFile": "无法读取此文件",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "速度",

@@ -55,11 +55,17 @@
     "errorNoContent": "Nessun articolo leggibile trovato in quella pagina",
     "fromPdf": "Importa PDF",
     "selectPdf": "Seleziona un PDF",
-    "uploading": "Caricamento…",
     "extracting": "Estrazione del testo…",
     "errorPasswordProtected": "Questo PDF è protetto da password",
     "errorNoTextFound": "Nessun testo leggibile trovato in questo PDF",
-    "errorCorruptFile": "Impossibile leggere questo file"
+    "errorCorruptFile": "Impossibile leggere questo file",
+    "fromPhoto": "Importa da una foto",
+    "takePhoto": "Scatta una foto",
+    "chooseFromGallery": "Scegli dalla galleria",
+    "readingPhoto": "Lettura del testo…",
+    "errorNoTextDetected": "Nessun testo leggibile trovato in questa immagine",
+    "errorOcrFailed": "Impossibile leggere il testo da questa immagine",
+    "cameraPermissionDenied": "È necessaria l'autorizzazione alla fotocamera"
   },
   "player": {
     "speed": "Velocità",

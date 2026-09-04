@@ -4,11 +4,11 @@ import { Stack, useRouter } from "expo-router";
 import * as DocumentPicker from "expo-document-picker";
 import { FileText, Upload } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
-import { callExtractPdf, getChunks, getDocumentMeta, uploadPdf } from "@/lib/documents";
+import { callExtractPdf, getChunks, getDocumentMeta } from "@/lib/documents";
 import { usePlayerStore } from "@/store/player";
 import { COLORS } from "@/constants";
 
-type Phase = "idle" | "uploading" | "extracting";
+type Phase = "idle" | "extracting";
 
 export default function PdfImportScreen() {
   const { t } = useTranslation();
@@ -30,26 +30,15 @@ export default function PdfImportScreen() {
     const file = result.assets[0];
     setPickedName(file.name);
     setErrorKey(null);
-    setPhase("uploading");
-
-    const storagePath = await uploadPdf(file.uri, file.name);
-    if (!storagePath) {
-      setErrorKey("import.errorFetchFailed");
-      setPhase("idle");
-      return;
-    }
-
     setPhase("extracting");
-    const extraction = await callExtractPdf(storagePath, file.name);
+
+    const extraction = await callExtractPdf(file.uri, file.name);
     if ("error" in extraction) {
       const map: Record<string, string> = {
         password_protected: "import.errorPasswordProtected",
         no_text_found: "import.errorNoTextFound",
         corrupt_file: "import.errorCorruptFile",
-        download_failed: "import.errorFetchFailed",
         network_error: "import.errorFetchFailed",
-        unauthorized: "import.errorFetchFailed",
-        invalid_request: "import.errorCorruptFile",
       };
       setErrorKey(map[extraction.error] ?? "import.errorCorruptFile");
       setPhase("idle");
@@ -106,7 +95,7 @@ export default function PdfImportScreen() {
           <>
             <ActivityIndicator color="#FFFFFF" />
             <Text className="ml-2 text-base font-semibold text-white">
-              {t(phase === "uploading" ? "import.uploading" : "import.extracting")}
+              {t("import.extracting")}
             </Text>
           </>
         ) : (

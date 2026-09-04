@@ -55,11 +55,17 @@
     "errorNoContent": "Geen leesbaar artikel gevonden op die pagina",
     "fromPdf": "PDF importeren",
     "selectPdf": "Selecteer een PDF",
-    "uploading": "Uploaden…",
     "extracting": "Tekst wordt geëxtraheerd…",
     "errorPasswordProtected": "Deze PDF is met een wachtwoord beveiligd",
     "errorNoTextFound": "Geen leesbare tekst gevonden in deze PDF",
-    "errorCorruptFile": "Dit bestand kon niet worden gelezen"
+    "errorCorruptFile": "Dit bestand kon niet worden gelezen",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "Snelheid",

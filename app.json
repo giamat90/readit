@@ -26,7 +26,14 @@
     },
     "plugins": [
       "expo-router",
-      "./plugins/withReleaseSigning.js"
+      "./plugins/withReleaseSigning.js",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "ReadIt reads text from photos you choose.",
+          "cameraPermission": "ReadIt reads text from photos you take."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

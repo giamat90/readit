@@ -55,11 +55,17 @@
     "errorNoContent": "На цій сторінці не знайдено статті для читання",
     "fromPdf": "Імпорт PDF",
     "selectPdf": "Вибрати PDF",
-    "uploading": "Завантаження…",
     "extracting": "Видобування тексту…",
     "errorPasswordProtected": "Цей PDF захищений паролем",
     "errorNoTextFound": "У цьому PDF не знайдено тексту для читання",
-    "errorCorruptFile": "Не вдалося прочитати цей файл"
+    "errorCorruptFile": "Не вдалося прочитати цей файл",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "Швидкість",

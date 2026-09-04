@@ -2,6 +2,8 @@
 
 Text-to-speech reader app for Android. Give it a text — a PDF, a web page, a photo, or pasted text — and it reads it aloud. The main goal: let the user **listen** to any text resource instead of reading it.
 
+**Fully standalone / on-device.** No accounts, no backend, no cloud. Everything — documents, chunks, playback positions, preferences — lives on the device. The *only* network request anywhere is the web importer fetching the URL the user pastes. Extraction runs on-device: a hidden WebView (`lib/extraction/`) hosts Mozilla Readability (web) and pdf.js (PDF); photo OCR uses Google ML Kit's bundled on-device model.
+
 Solo founder project — Giacomo is PO and tester. Development is done via two Claude Code instances working in tandem.
 
 ## Two-instance workflow
@@ -17,15 +19,16 @@ The `tasks/` folder is the handoff point. Tech Lead writes, Developer reads. Bot
 ## Stack
 
 - Expo React Native SDK 55 + TypeScript + Expo Router
-- Supabase (auth, database, edge functions, storage)
+- **On-device storage**: `expo-sqlite` (documents/chunks/positions, schema in `lib/db.ts`) + zustand `persist` → AsyncStorage (preferences)
+- **On-device extraction**: hidden `react-native-webview` running bundled `@mozilla/readability` + `pdfjs-dist` (`lib/extraction/`, generated `assets/extraction/engine.html`); `@react-native-ml-kit/text-recognition` for photo OCR
 - NativeWind (Tailwind for RN)
 - Zustand (state management)
 - Lucide icons
-- expo-speech (on-device TTS, v1.0) / expo-av (neural audio playback, v1.1)
+- expo-speech (on-device TTS)
 - expo-document-picker (PDF), expo-image-picker (photo)
-- Anthropic Claude via Supabase Edge Functions (photo OCR, text cleanup)
-- RevenueCat (Pro subscription)
-- EAS Build (Expo Application Services)
+- Local Gradle build via the `.bat` scripts / GitHub Actions
+
+No backend. No auth. No payments. No `@supabase/*`, no RevenueCat.
 
 Android package / iOS bundle ID: `com.giamat90.readit`
 
@@ -43,29 +46,27 @@ Android package / iOS bundle ID: `com.giamat90.readit`
 3. **Listen** — TTS player reads chunks aloud with play/pause, skip ±paragraph, speed control (0.5×–2×), voice/language selection
 4. **Resume** — playback position is persisted per document; the library shows progress
 
-### Extraction pipeline (Supabase Edge Functions)
+### Extraction pipeline (`lib/extraction/` — all on-device)
 
-All extraction is server-side — the client stays thin and never parses PDFs/HTML itself.
+The client does all parsing. `lib/documents.ts` orchestrates every path identically: **extract raw text + title → `chunkText` (`lib/chunking.ts`) → `detectLanguage` (`lib/language.ts`) → `saveDocument` into SQLite → return document id.**
 
-| Edge function | Input | Method |
-|---------------|-------|--------|
-| `extract-web` | URL | fetch + Mozilla Readability (Deno) → clean article text |
-| `extract-pdf` | Supabase Storage path of uploaded PDF | `unpdf` text extraction |
-| `extract-photo` | image (base64) | Claude vision OCR — returns clean reading-order text |
+| Extractor | Input | Method |
+|-----------|-------|--------|
+| paste | text | chunked directly, no extractor |
+| `extraction/web.ts` | URL | RN `fetch(url)` (the one network call) → hidden WebView runs Mozilla Readability on the HTML → `{title,text,language}`; falls back to a regex tag-strip if the engine fails |
+| `extraction/pdf.ts` | picked `file://` PDF | hidden WebView runs pdf.js `getTextContent()` over every page (reads the file via `fetch('file://')` so bytes don't cross the RN bridge) |
+| `extraction/photo.ts` | image `uri` | `@react-native-ml-kit/text-recognition` on-device OCR |
 
-Each function: extracts → normalizes (strip boilerplate, fix hyphenation) → splits into ~1000-char chunks on paragraph/sentence boundaries → inserts `documents` row + `document_chunks` rows → returns document id. Client polls/receives `status: ready`.
-
-Pasted text skips edge functions entirely: chunked client-side, inserted directly.
+`lib/extraction/engine.tsx` mounts one hidden `<ExtractionEngine/>` WebView in `app/_layout.tsx`; `runInEngine(op, payload)` is the request/reply bridge. The WebView page is `assets/extraction/engine.html`, **generated** by `npm run build:engine` (`scripts/build-extraction-engine.js`) which inlines Readability + pdf.js + the pdf worker — regenerate and commit it after bumping `@mozilla/readability` or `pdfjs-dist` (both devDependencies).
 
 ### TTS strategy
 
-- **v1.0 (Free + Pro)**: `expo-speech` — on-device, offline, zero cost. Player drives chunk-by-chunk: speak chunk N, on `onDone` advance to N+1. Known limitation: playback pauses when app is backgrounded on some devices — documented, not fought in v1.0.
-- **v1.1 (Pro)**: neural voices via a `tts-neural` edge function (cloud TTS provider TBD), audio cached in Supabase Storage, played with `expo-av` → true background/lock-screen playback with media controls. This is the Pro headline feature.
+`expo-speech` — on-device, offline, zero cost. Player drives chunk-by-chunk: speak chunk N, on `onDone` advance to N+1 (`hooks/useSpeechPlayer.ts`). Known limitation: playback pauses when the app is backgrounded on some devices — documented, not fought.
 
 ### Zustand stores
 
-- `store/user.ts` — auth session, `isPro`, preferences (voice, rate, theme)
-- `store/library.ts` — documents list, import status, pagination
+- `store/preferences.ts` — voice, rate, app language; **persisted** via `persist` → AsyncStorage, rehydrated in `app/_layout.tsx` before first render. `lib/preferences.ts` is a thin snake-case adapter kept so the settings screens didn't change.
+- `store/library.ts` — documents list; `fetchDocuments()` reads SQLite via `listDocuments()`, re-run on every tab focus
 - `store/player.ts` — current document, chunk index, playing state, rate; drives expo-speech
 
 ### Screens (Expo Router)
@@ -74,115 +75,88 @@ Pasted text skips edge functions entirely: chunked client-side, inserted directl
 app/
 ├── (tabs)/
 │   ├── index.tsx        # Library — document list w/ progress, FAB import menu
-│   └── settings.tsx     # Voice, rate default, language, account, Pro
+│   └── settings.tsx     # Voice, rate default, app language
 ├── import/
-│   ├── paste.tsx        # Paste text
-│   ├── web.tsx          # URL input (+ Android share-intent target)
+│   ├── paste.tsx        # Paste text (also links to web/pdf/photo)
+│   ├── web.tsx          # URL input
 │   ├── pdf.tsx          # Document picker flow
-│   └── photo.tsx        # Camera/gallery flow
-├── player/[id].tsx      # Player: text view w/ highlighted current chunk + controls
-└── auth/                # Sign in / sign up (Supabase auth)
+│   └── photo.tsx        # Camera/gallery + on-device OCR
+├── player/index.tsx     # Player: text view w/ highlighted current chunk + controls
+└── settings/            # voice.tsx, rate.tsx, language.tsx
 ```
 
-## Database schema (Supabase Postgres)
+No auth screens — the app opens straight to the library.
 
-Migrations tracked numerically starting at 001. Always increment, never reuse numbers. RLS on every table: users only see their own rows.
+## Database schema (on-device SQLite — `lib/db.ts`)
+
+One local database, `readit.db`, opened behind a cached promise. Schema versioned with `PRAGMA user_version` + an append-only `MIGRATIONS` array (never edit/reorder existing entries — add a new one). On a hard migration failure the DB is dropped and recreated (acceptable pre-launch). No `user_id`, no RLS — single implicit local user.
 
 ```sql
--- 001
-CREATE TABLE profiles (
-    id              UUID PRIMARY KEY REFERENCES auth.users ON DELETE CASCADE,
-    is_pro          BOOLEAN DEFAULT false,
-    preferred_voice TEXT,
-    preferred_rate  FLOAT DEFAULT 1.0,
-    app_language    TEXT DEFAULT 'en',
-    created_at      TIMESTAMPTZ DEFAULT now()
-);
-
 CREATE TABLE documents (
-    id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id      UUID REFERENCES auth.users ON DELETE CASCADE,
+    id           TEXT PRIMARY KEY,                 -- Crypto.randomUUID()
     title        TEXT NOT NULL,
     source_type  TEXT NOT NULL CHECK (source_type IN ('paste','web','pdf','photo')),
-    source_ref   TEXT,              -- URL or storage path; null for paste
-    language     TEXT,              -- BCP-47, detected at extraction
-    char_count   INT DEFAULT 0,
-    chunk_count  INT DEFAULT 0,
-    status       TEXT NOT NULL DEFAULT 'processing'
-                 CHECK (status IN ('processing','ready','error')),
+    source_ref   TEXT,                             -- URL or filename; null for paste
+    language     TEXT,                             -- BCP-47
+    char_count   INTEGER NOT NULL DEFAULT 0,
+    chunk_count  INTEGER NOT NULL DEFAULT 0,
+    status       TEXT NOT NULL DEFAULT 'ready' CHECK (status IN ('processing','ready','error')),
     error_msg    TEXT,
-    created_at   TIMESTAMPTZ DEFAULT now()
+    created_at   TEXT NOT NULL                     -- ISO 8601
 );
 
 CREATE TABLE document_chunks (
-    id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id  UUID REFERENCES documents ON DELETE CASCADE,
-    seq          INT NOT NULL,
+    document_id  TEXT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    seq          INTEGER NOT NULL,
     content      TEXT NOT NULL,
-    UNIQUE(document_id, seq)
+    PRIMARY KEY (document_id, seq)
 );
 
 CREATE TABLE playback_positions (
-    document_id  UUID REFERENCES documents ON DELETE CASCADE,
-    user_id      UUID REFERENCES auth.users ON DELETE CASCADE,
-    chunk_seq    INT DEFAULT 0,
-    updated_at   TIMESTAMPTZ DEFAULT now(),
-    PRIMARY KEY (document_id, user_id)
+    document_id  TEXT PRIMARY KEY REFERENCES documents(id) ON DELETE CASCADE,
+    chunk_seq    INTEGER NOT NULL DEFAULT 0,
+    updated_at   TEXT NOT NULL
 );
 ```
 
-## Pricing (proposal — Giacomo to confirm before paywall task)
+## Pricing
 
-- **Free**: unlimited pasted text + web pages, 3 PDF/photo imports per month, on-device voices
-- **Pro**: €2.99/month or €24.99/year, 7-day free trial — unlimited PDF/photo imports, neural voices + background playback (v1.1), audio export (v1.2)
-- Pro gating via `useProGate` hook + `ProUpgradeModal` component (same pattern as GreenThumb)
+Free. No payments, no subscription, no import quotas. Everything is unlimited.
 
 ## Critical rules — NEVER violate (carried over from GreenThumb, hard-won)
 
 1. **NEVER use hardcoded pixel values for layout spacing** — always use `onLayout` dynamic measurement
-2. **Edge function auth**: use direct `fetch()` with Bearer token + anon key pattern, NOT `supabase.functions.invoke()` (causes JWT 401 errors)
-3. **i18n**: duplicate JSON keys silently break translations — always validate locale files
-4. **Migrations**: tracked numerically. Always increment, never reuse numbers
-5. **Extraction fetch functions**: define outside component scope to avoid infinite re-render loops
-6. **Never log document content** — only metadata (document_id, source_type, char_count). Users may import private texts
-7. **expo-speech chunk advance**: drive from `onDone` callback, never `setTimeout` estimates
-8. **After every merge to `master` and every app version bump**: review whether `readit-support/` (privacy policy, terms of service, contact, delete-account) needs updating — see "Support site" below. Do this before cutting a release build, not after
+2. **i18n**: duplicate JSON keys silently break translations — always run `npm run validate-locales`
+3. **SQLite migrations** (`lib/db.ts`): the `MIGRATIONS` array is append-only. Add a new entry, never edit or reorder existing ones
+4. **Data-access functions**: define outside component scope (all in `lib/documents.ts`) to avoid infinite re-render loops
+5. **Never log document content** — only metadata (source_type, char_count, chunk_count, error codes). Users may import private texts
+6. **expo-speech chunk advance**: drive from `onDone` callback, never `setTimeout` estimates
+7. **The extraction WebView only ever loads the local `engine.html`** — never point it at remote content. It runs with `allowUniversalAccessFromFileURLs` so it can read the picked PDF; that is safe only because it never navigates
+8. **Only one network call may exist in the app**: `fetch(url)` in `lib/extraction/web.ts`. Do not add others
+9. **After every merge to `master` and every app version bump**: review whether `readit-support/` needs updating — see "Support site" below. Do this before cutting a release build
 
 ## Support site (privacy policy / terms of service)
 
 Legal/support pages live in `readit-support/` — a separate git repo nested inside this working tree (its own `.git`, own remote), pushed to `giamat90/readit-support` on GitHub and served via GitHub Pages at `https://giamat90.github.io/readit-support/`. Contains `privacy-policy.html`, `terms-of-service.html`, `contact.html`, `delete-account.html`, styled with ReadIt's own palette (`constants/index.ts` colors, not GreenThumb's).
 
-This is the URL registered in Google Play Console's Data Safety section — **it must accurately reflect what the shipped app actually does**, or the Data Safety declaration is wrong (a compliance problem, not just a docs one).
+This is the URL registered in Google Play Console's Data Safety section — **it must accurately reflect what the shipped app actually does**. The app now collects and shares **nothing** — everything is on-device — so the Data Safety declaration should read "No data collected / No data shared". The one nuance to keep the pages honest about: the web importer makes a direct request from the device to whatever URL the user supplies (no proxy, no logging).
 
 **Checklist to run after every merge to `master` and every version bump**, before cutting a release build:
-- Did this merge add/remove a data type collected (new profile field, new table, new permission)?
-- Did it add/remove a third-party processor (new edge function calling an external API, new SDK)?
-- Did it ship a previously-deferred import path (e.g. photo/OCR — see TASK-007) or remove one?
-- Did it change account deletion behavior, retention, or what gets deleted?
-- Did it introduce payments/subscriptions (RevenueCat / TASK-009)? The Terms' "Cost" section currently states the app is free with no payment processing — that must change the moment billing ships.
+- Did this merge add a network call, an analytics/crash SDK, or a backend of any kind? (If so, the "no data collected" claim is now false — stop and fix the pages.)
+- Did it add/remove a runtime permission (`app.json` `android.permissions`, or a config plugin like `expo-image-picker`)?
+- Did it add/remove an import path?
+- Did it change what a local uninstall / "clear storage" erases?
 
-If any answer is yes, update the relevant page(s) in `readit-support/`, bump their "Last updated" date, commit, and push — same as any other repo, no special deploy step required (GitHub Pages redeploys automatically on push to `main`).
-
-## Supabase Edge Functions — Deploy Protocol
-
-The Developer instance must **NOT** run deploy commands itself. It must stop and instruct Giacomo to run them manually, labeled as **"⚡ Manual Deploy Step"** in its completion report:
-
-```bash
-npx supabase login                       # first time only
-npx supabase link --project-ref <ref>    # first time only
-npx supabase functions deploy <function-name>
-npx supabase secrets list                # verify secrets if needed
-```
-
-Wait for Giacomo to confirm before considering the task complete.
+If any answer is yes, update the relevant page(s) in `readit-support/`, bump their "Last updated" date, commit, and push (GitHub Pages redeploys automatically on push to `main`).
 
 ## Commands
 
 ```bash
 npx expo start                                   # dev server
 npx expo run:android                             # run on Giacomo's Moto G 5G (serial ZY22BHCRLF; auto-picked when it's the only device)
-eas build --profile preview --platform android   # preview APK (cloud, once eas.json exists)
-eas build --profile production --platform android
+npm run build:engine                             # regenerate assets/extraction/engine.html (after bumping readability/pdfjs-dist)
+npm run typecheck
+npm run validate-locales
 ```
 
 ### Local build scripts (mirrors GreenThumb)
@@ -205,11 +179,11 @@ Two workflows in `.github/workflows/` mirror the local build scripts above, runn
 - **`release-apk.yml`** — manual trigger only (`workflow_dispatch`, or `gh workflow run "Release APK (testers)"`). Builds a release-signed `.apk` and uploads it as a workflow artifact, for handing to testers.
 - **`release-aab.yml`** — triggers on pushing a `v*.*.*` tag (also has `workflow_dispatch` for manual reruns). Builds the `.aab`, uploads it as a workflow artifact, then publishes to the Play Console **`internal`** track (deliberately not `production` — promote manually when ready).
 
-Both do: checkout → Node 22 → `npm ci` → JDK 17 → Android SDK → write `.env` from secrets → decode the release keystore → write signing values to `~/.gradle/gradle.properties` → `npx expo prebuild --platform android --clean` → `gradlew {assembleRelease,bundleRelease}` → rename artifact into `Bundles/app-release-v<version>-<code>.{apk,aab}`.
+Both do: checkout → Node 22 → `npm ci` → JDK 17 → Android SDK → decode the release keystore → write signing values to `~/.gradle/gradle.properties` → `npx expo prebuild --platform android --clean` → `gradlew {assembleRelease,bundleRelease}` → rename artifact into `Bundles/app-release-v<version>-<code>.{apk,aab}`. (No `.env` step — the app has no build-time secrets. `prebuild --clean` autolinks the native modules: expo-sqlite, react-native-webview, expo-image-picker, ml-kit.)
 
 **Why a config plugin is required**: `android/app/build.gradle` is regenerated from scratch by `expo prebuild --clean` and isn't tracked in git, so a real release signing config can't be hand-edited into it — it would vanish on the next prebuild. `plugins/withReleaseSigning.js` re-injects a `signingConfigs.release` block (reading `RELEASE_STORE_FILE`/`RELEASE_STORE_PASSWORD`/`RELEASE_KEY_ALIAS`/`RELEASE_KEY_PASSWORD` via `project.hasProperty(...)`) on every prebuild, and switches the release `buildType` to use it when those properties are present — falling back to the debug keystore otherwise, so local dev builds are unaffected. It throws a clear error if its anchors don't match the generated file, so a future Expo SDK upgrade that changes the template fails loudly instead of silently shipping a debug-signed release.
 
-**GitHub repo secrets required** (`gh secret list` to check): `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`, `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, `PLAY_SERVICE_ACCOUNT_JSON` (only needed for the `.aab` workflow's publish step — needs a Google Cloud service account with Release Manager access on `com.giamat90.readit` in Play Console's API access page).
+**GitHub repo secrets required** (`gh secret list` to check): `RELEASE_KEYSTORE_BASE64`, `RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`, `PLAY_SERVICE_ACCOUNT_JSON` (only needed for the `.aab` workflow's publish step — needs a Google Cloud service account with Release Manager access on `com.giamat90.readit` in Play Console's API access page). The old `EXPO_PUBLIC_SUPABASE_*` secrets are unused and can be deleted.
 
 **Keystore backup**: the release keystore (`readit-release.jks`) and its password live at `C:\Users\giaco\Documents\ReadIt-release-keystore\` on Giacomo's machine — back this up to durable secure storage (password manager / cloud). It is never committed (`.gitignore` covers `*.jks`/`*.keystore`) and losing it permanently blocks future Play Store updates. If a `GoogleCloud/` or `keystore_secure/` folder appears at the repo root during future credential handling, `.gitignore` already covers both by name — but double-check before ever running a broad `git add`, since one already slipped in unignored once (a GCP service-account key downloaded with a `<project-id>-<hash>.json` name that didn't match the `*service-account*.json` pattern).
 
@@ -218,36 +192,22 @@ Both do: checkout → Node 22 → `npm ci` → JDK 17 → Android SDK → write 
 ## v1.0 scope
 
 ### IN
-- Supabase auth (email + Google)
-- Three import paths: paste, web URL, PDF
+- Four import paths: paste, web URL, PDF, photo (on-device OCR) — all offline except the web fetch
 - On-device TTS player: play/pause, skip paragraph, speed 0.5×–2×, voice picker
 - Current-chunk highlighting in the text view while speaking
-- Library with per-document progress + resume
-- Free/Pro gating with RevenueCat
-- i18n: en + it at launch
+- Library with per-document progress + resume, all in on-device SQLite
+- i18n: 14 locales bundled (en + it fully translated; photo strings await translation in the rest)
 - Android only
 
-### OUT (v1.1+)
-- Photo import (Claude vision OCR) — **deferred from v1.0**; code-complete on unmerged branch `feat/task-007-photo-import` (do not delete), paused pending `ANTHROPIC_API_KEY` + native rebuild + device test. Re-promote to IN scope, merge, and update `readit-support/privacy-policy.html` + `terms-of-service.html` accordingly before shipping (see "Support site" below)
-- Neural voices + true background playback (v1.1, Pro headline)
-- Android share-sheet target ("Share → ReadIt") (v1.1)
-- Audio file export (v1.2)
+### OUT (later)
+- Neural voices + true background playback — needs a cloud TTS provider, conflicts with the standalone goal; revisit only if that changes
+- Android share-sheet target ("Share → ReadIt")
+- Audio file export
 - EPUB support, iOS, web version, folders/tags, sleep timer
 
-## Task roadmap (v1.0)
+## History
 
-| Task | Scope |
-|------|-------|
-| TASK-001 | Project scaffold: Expo SDK 55 + TS + Expo Router + NativeWind + Zustand + Lucide, tab shell, theme |
-| TASK-002 | Supabase project + auth flow + `profiles` (migration 001) |
-| TASK-003 | Core loop MVP: paste text → chunking → expo-speech player with controls + highlighting |
-| TASK-004 | `documents`/`document_chunks`/`playback_positions` tables, library screen, resume |
-| TASK-005 | Web import: `extract-web` edge function + URL screen |
-| TASK-006 | PDF import: storage upload + `extract-pdf` edge function |
-| TASK-007 | Photo import: `extract-photo` edge function (Claude vision OCR) — **DEFERRED, not in MVP** (see v1.0 scope OUT) |
-| TASK-008 | Settings: voice picker, default rate, app language, i18n en/it |
-| TASK-009 | RevenueCat + Pro gating + import quotas |
-| TASK-010 | Polish, error states, EAS preview build, Play Store prep |
+The app was originally built (TASK-001…009) on Supabase — auth, Postgres, storage, and Deno edge functions for extraction — plus a planned RevenueCat tier. The `feat/standalone-offline` refactor removed all of it: SQLite replaces Postgres, a hidden WebView + ML Kit replace the edge functions, preferences moved to AsyncStorage, and auth + Pro were deleted. Older `tasks/TASK-00X.md` specs describe the pre-refactor architecture and are historical.
 
 ## Task spec format
 

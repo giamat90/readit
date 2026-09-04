@@ -5,13 +5,13 @@ import { Check } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { RATE_STEPS } from "@/hooks/useSpeechPlayer";
 import { updatePreferences } from "@/lib/preferences";
-import { useUserStore } from "@/store/user";
+import { usePreferencesStore } from "@/store/preferences";
 import { COLORS } from "@/constants";
 
 export default function RateSettingScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const preferredRate = useUserStore((s) => s.preferredRate);
+  const preferredRate = usePreferencesStore((s) => s.preferredRate);
 
   async function select(rate: number) {
     await updatePreferences({ preferred_rate: rate });

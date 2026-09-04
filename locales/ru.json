@@ -55,11 +55,17 @@
     "errorNoContent": "На этой странице не найдено читаемой статьи",
     "fromPdf": "Импорт PDF",
     "selectPdf": "Выбрать PDF",
-    "uploading": "Загрузка…",
     "extracting": "Извлечение текста…",
     "errorPasswordProtected": "Этот PDF защищён паролем",
     "errorNoTextFound": "В этом PDF не найдено читаемого текста",
-    "errorCorruptFile": "Не удалось прочитать этот файл"
+    "errorCorruptFile": "Не удалось прочитать этот файл",
+    "fromPhoto": "Import from a photo",
+    "takePhoto": "Take a photo",
+    "chooseFromGallery": "Choose from gallery",
+    "readingPhoto": "Reading text…",
+    "errorNoTextDetected": "No readable text found in this image",
+    "errorOcrFailed": "Couldn't read text from this image",
+    "cameraPermissionDenied": "Camera permission is needed to take a photo"
   },
   "player": {
     "speed": "Скорость",
