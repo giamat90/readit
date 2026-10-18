@@ -21,7 +21,7 @@ echo Building bundle v%VERSION_NAME% (%VERSION_CODE%)...
 
 :: Pass versions as Gradle properties
 cd "%ROOT%\android"
-call gradlew.bat bundleRelease -PappVersionCode=%VERSION_CODE% -PappVersionName=%VERSION_NAME%
+call .\gradlew.bat bundleRelease -PappVersionCode=%VERSION_CODE% -PappVersionName=%VERSION_NAME%
 if errorlevel 1 (
     echo Build failed!
     exit /b 1

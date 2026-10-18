@@ -13,7 +13,7 @@ if errorlevel 1 (
 
 echo Building release APK...
 cd "%ROOT%\android"
-call gradlew.bat assembleRelease
+call .\gradlew.bat assembleRelease
 if errorlevel 1 (
     echo Build failed!
     exit /b 1
