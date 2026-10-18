@@ -5,6 +5,25 @@ on:
     tags:
       - "v*.*.*"
   workflow_dispatch:
+    inputs:
+      track:
+        description: "Play Store track to publish to (closed testing = alpha)"
+        required: true
+        default: internal
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      release_status:
+        description: "Play Store release status"
+        required: true
+        default: completed
+        type: choice
+        options:
+          - completed
+          - draft
 
 jobs:
   build-and-publish:
@@ -62,11 +81,11 @@ jobs:
           name: readit-release-aab
           path: Bundles/*.aab
 
-      - name: Publish to Google Play (internal track)
+      - name: Publish to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.giamat90.readit
           releaseFiles: Bundles/*.aab
-          tracks: internal
-          status: completed
+          tracks: ${{ inputs.track || 'internal' }}
+          status: ${{ inputs.release_status || 'completed' }}

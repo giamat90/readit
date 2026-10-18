@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "com.giamat90.readit",
-      "versionCode": 2,
+      "versionCode": 3,
       "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -27,6 +27,15 @@
     "plugins": [
       "expo-router",
       "./plugins/withReleaseSigning.js",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ],
       [
         "expo-image-picker",
         {
